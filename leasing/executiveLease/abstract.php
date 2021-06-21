@@ -6,7 +6,7 @@
 
 ?>
 
-<div class="container">
+
 <div class="row">
   <div class="col heading"><h5>LEASE ABSTRACT</h5></div>
 </div>
@@ -142,9 +142,4 @@
   <div class="col border ">$ <?php echo number_format($telecomMRC,2)?></div>
   <div class="col-auto border">Furniture rental</div>
   <div class="col border ">$ <?php echo number_format($furnitureRent,2)?></div>
-</div>
-
-
-
-
 </div>

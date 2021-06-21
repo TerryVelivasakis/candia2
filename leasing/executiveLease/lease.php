@@ -4,7 +4,7 @@
 //function floorNumber($steNumber){echo $steNumber."asldkjfhlasjdhflajksdhf";}
 
  ?>
-<div class="container">
+
 <p>This lease agreement is made this <?php echo date("jS \of F, Y")?> between <?php echo $TenantName; ?> hereinafter referred to as Tenant and <?php echo $property['propertyLLC']; ?> (hereinafter referred to as Landlord.) Now, therefore, in consideration of mutual premises, covenants, and conditions set forth below, the Landlord and Tenant agree as follows.</p>
 
 <ol>
@@ -130,10 +130,11 @@ casualty, force majeure or similar event which causes Landlord to limit access t
 
 <li><p><b>SECURITY DEPOSIT:</b> Tenant shall deposit with Landlord the sum of $<?php echo number_format((float) $secruityDeposit, 2)?> as security for the full and faithful performance of every provision of this Lease to be performed by Tenant as well as return of the premises in proper condition at the end of the lease term or on earlier termination and forfeiture as provided herein. If Tenant defaults with respect to any provision of this Lease, including but not limited to the provisions relating to the payment of Rent, Landlord may use, apply or retain all or any part of this security deposit for the payment of any Rent or any other sum in default or for the payment of any other amount which, Landlord may spend or become obligated to spend by reason of Tenant’s default. If any portion of said deposit is to be used or applied, Tenant shall, within five (5) days after written demand therefor, deposit cash with Landlord in an amount sufficient to restore the security deposit to its original amount and Tenant’s failure to do so shall be a breach of this Lease. Landlord shall not, unless otherwise required by law, be required to keep this security deposit separate from its general funds. If Tenant shall fully and faithfully perform every provision of this Lease to be performed by it, the security deposit or any balance thereof shall be returned to Tenant (or, at Landlord’s option, to the last transferee of Tenant’s interest hereunder) at the expiration of the Lease term and upon Tenant’s vacation of the Premises.  Any security deposit refund shall be within 30 days of Termination but under no circumstance shall any deposit be returned less than 10 days after termination. In the event the Building is sold, the security deposit will be transferred to the new owner.</p></li>
 
+<li><p><b>SIGNATURES:</b> This Agreement may be signed in counterparts and the Agreement, together with its counterpart signature pages, shall be deemed valid and binding on each party when duly executed by all parties. Facsimile and electronically scanned signatures shall be deemed valid and binding for all purposes. </p></li>
+
 <li><p><b>SEVERABILITY:</b> If any provision of this Agreement or the application thereof shall, for any reason and to any extent, be invalid or unenforceable, neither the remainder of this Agreement nor the application of the provision to other persons, entities or circumstances shall be affected thereby, but instead shall be enforced to the maximum extent permitted by law.</p></li>
 
 <li><p><b>RADON GAS:</b> Radon is a naturally occurring gas that, when it has accumulated in a building in sufficient quantities, may present health risks to persons who are exposed to it over time. Levels of radon that exceed Federal and State guidelines have been found in buildings in Florida. Additional information regarding radon and radon testing may be obtained from your county public health unit.</p></li>
 
 <li><p><b>VACATED PREMISES:</b> Any property left in vacated suites will automatically become the property of <?php echo $property['propertyLLC']; ?> if left there after fifteen (15) days.</p></li>
 </ol>
-</div>

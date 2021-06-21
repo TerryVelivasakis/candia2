@@ -90,5 +90,9 @@ switch ($telecomArray[0]){
 if ($telecomArray[6]==1){$phoneAwnsering="checked";}else{$phoneAwnsering="";}
 if ($telecomArray[7]==1){$tvService="checked";}else{$tvService="";}
 $internetCheck="checked";
-$internetLease="*included in rent"
+$internetLease="*included in rent";
+
+
+$signerName = "Lefteris N. Velivasakis";
+$signerTitle = "Vice President";
  ?>
