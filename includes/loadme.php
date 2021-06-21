@@ -1,6 +1,6 @@
 <?php
-require 'includes/dbconfig.php';
-require 'includes/bootstrap.php';
-require 'includes/nav.php';
+require $_SERVER["DOCUMENT_ROOT"].'/includes/dbconfig.php';
+require $_SERVER["DOCUMENT_ROOT"].'/includes/bootstrap.php';
+require $_SERVER["DOCUMENT_ROOT"].'/includes/nav.php';
 
 ?>

@@ -4,3 +4,10 @@
 .data{
   font-weight: bold;
 }
+
+
+@page {
+  @bottom-left {
+    content: counter(page) ' of ' counter(pages);
+  }
+}
