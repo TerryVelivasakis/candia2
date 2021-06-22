@@ -71,22 +71,31 @@ $doorSign = "James Jonathan poopy";
 8) internet access boolval
 9) internet access included in rents
                   0,1,2,3,4,5,6,7,8,9*/
-$telecomString = "0,1,1,1,1,1,0,0,1,1";
+$telecomString = "0,1,1,1,1,1,0,1,1,1";
 $telecomArray = explode(",",$telecomString);
 switch ($telecomArray[0]){
   case 0:
     $telecomPackage = "No Telecom Package Selected";
+    $telecomNumberOfLines = 0;
+    $telecomNumberOfDevices = 0;
     break;
   case 1:
     $telecomPackage = "Basic Telecom Package";
+    $telecomNumberOfLines = 1;
+    $telecomNumberOfDevices = 1;
     break;
   case 2:
     $telecomPackage="Business Plus Package";
+    $telecomNumberOfLines = 1;
+    $telecomNumberOfDevices = 1;
     break;
   case 3:
     $telecomPackage="Business VIP Package";
+    $telecomNumberOfLines = 1;
+    $telecomNumberOfDevices = 1;
 }
-
+$telecomNumberOfLines += intval($telecomArray[1]);
+$telecomNumberOfDevices += intval($telecomArray[2]);
 if ($telecomArray[6]==1){$phoneAwnsering="checked";}else{$phoneAwnsering="";}
 if ($telecomArray[7]==1){$tvService="checked";}else{$tvService="";}
 $internetCheck="checked";
