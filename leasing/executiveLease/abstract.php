@@ -17,7 +17,7 @@
   </div>
 <div class="row">
   <div class="col-auto border">Lease Term</div>
-  <div class="col border data"><?php echo $leaseTerm?></div>
+  <div class="col border data"><?php echo $leaseTerm?> Month(s)</div>
   <div class="col-auto border">Suite Number</div>
   <div class="col border data"><?php echo $suiteNumber?></div>
   <div class="col-auto border">Square Feet</div>
@@ -29,9 +29,9 @@
 <div class="row">
 
   <div class="col-auto border">Lease Date</div>
-  <div class="col border data"><?php echo $suiteNumber?></div>
+  <div class="col border data"><?php echo $leaseDate?></div>
   <div class="col-auto border">Move in Date</div>
-  <div class="col border data"><?php echo $suiteNumber?></div>
+  <div class="col border data"><?php echo $moveInDate?></div>
 </div>
 <br>
 <div class="row">

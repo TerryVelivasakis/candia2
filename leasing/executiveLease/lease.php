@@ -12,7 +12,7 @@
 SUITE <?php echo $suiteNumber; ?> consisting of approximately <?php echo $suiteSqft; ?> sq. ft. of the Executive
 Offices at <?php echo $property['propertyName']?>, located on the <?php echo ucfirst($formatter->format(intval(substr($suiteNumber,0,1))));?> floor of <?php echo $property['propertyAddress']?>.</p></li>
 
-<li><p><b>TERM:</b> <?php echo $TermCommence;?>  After the initial term, this lease will automatically renew on the first of each subsequent month on a month to month basis.
+<li><p><b>TERM:</b> <?php echo $TermCommence;?> lease will automatically renew on the first of each subsequent month on a month to month basis.
 TERMINATION REQUIRES 30 DAYS WRITTEN NOTICE IN ADVANCE OF NEXT RENEWAL TERM.</p></li>
 
 <li><p><b>RENT:</b> During the term of this lease, the Tenant hereby covenants and agrees to pay Landlord as rent the total sum of $<?php echo number_format($baseRent, 2)?>

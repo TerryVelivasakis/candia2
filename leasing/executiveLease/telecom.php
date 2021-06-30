@@ -45,7 +45,7 @@ for attaching multiple users to the internet.  Use of a router that does not sup
   <div class="col-7">
   <table class="table table-sm lease">
     <tr><td><td>Quantity<td>Set up Fee<td>Monthly Fee</tr>
-    <tr><td>Additional Phone Lines<td><?php echo $telecomArray[1];?><td><td></tr>
+    <tr><td width = "40%">Additional Phone Lines<td><?php echo $telecomArray[1];?><td><td></tr>
     <tr><td>Phone Answering<td><div class="form-check"><input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" disabled <?php echo $phoneAwnsering;?>><td><td></tr>
     <tr><td>Mirror Image Device<td><?php echo $telecomArray[2];?><td><td></tr>
     <tr><td>Power Adapter<td><?php echo $telecomArray[4];?><td><td></tr>
@@ -55,7 +55,7 @@ for attaching multiple users to the internet.  Use of a router that does not sup
     <div class="col-7">
     <table class="table table-sm lease">
       <tr><td><td>Quantity<td>Set up Fee<td>Monthly Fee</tr>
-      <tr><td>eFax<td><?php echo $telecomArray[4];?><td><td></tr>
+      <tr ><td width = "40%">eFax<td><?php echo $telecomArray[4];?><td><td></tr>
       <tr><td>Static IP(s)<td><?php echo $telecomArray[5];?><td><td></tr>
       <tr><td><div>Business TV Service</div><font size="1">Including HD DVR Cablebox</font><td><input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" disabled <?php echo $tvService;?>><td><td></tr>
     </table>
