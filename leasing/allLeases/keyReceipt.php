@@ -15,10 +15,11 @@
 
 <b>Terms and Conditions:</b>
     <ol>
-      <li><b>Keys:</b> Tenant is being issued 1 Suite Key and 1 Mailbox Key
+      <li><b>Handles and Locks:</b> Tenant may not change or alter the Handles or Locks in any way without Landlord's written permission.
+      <li><b>Keys:</b> Tenant is being issued 1 Suite Key and 1 Mailbox Key.
       <li><b>Additional Keys:</b> Tenant may, at Tenant's sole cost and expense, make additional key copies.
       <li><b>Management Keys:</b> Tenant agrees and understands that management maintains keys to suites in a secure location and will, at Tenant's request, make additional keys at a rate of $20.00 for the first and $5.00 for each additional.
-      <li><b>Mailbox Keys:</b> Tenant agrees and understands that management DOES NOT maintain keys to mailboxes any replacement key for mailboxes are subject to a $50.00 rekey fee
+      <li><b>Mailbox Keys:</b> Tenant agrees and understands that management DOES NOT maintain keys to mailboxes any replacement key for mailboxes are subject to a $50.00 rekey fee.
       <li><b>Key Fobs:</b> Tenant may purchase for use a Key Fob for after hours access
 </ol>
 <p>

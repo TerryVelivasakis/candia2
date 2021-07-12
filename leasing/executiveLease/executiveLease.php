@@ -1,15 +1,10 @@
 <?php
 require $_SERVER["DOCUMENT_ROOT"].'/leasing/executiveLease/leaseData.php';
-?>
-
-<div class="container lease">
-
-<?php
-
 require $_SERVER["DOCUMENT_ROOT"].'/leasing/executiveLease/abstract.php';
+echo'<div style="page-break-after: always;"></div><div class="container lease">
 
-echo'<div style="page-break-after: always;">
-</div><center><h4>'.$property['propertyName'].'</h4>
+<center><h4>'.$property['propertyName'].'</h4>
+
 <h6>EXECUTIVE SUITE LEASE AGREEMENT</center></h6>';
 require $_SERVER["DOCUMENT_ROOT"].'/leasing/executiveLease/lease.php';
 
@@ -35,6 +30,11 @@ echo'<div style="page-break-after: always;"></div>';
 echo "<h5><Center>EXHIBIT D</center></h5>";
 require $_SERVER["DOCUMENT_ROOT"].'/leasing/allLeases/keyReceipt.php';
 
+if ($personalGuarantee != ""){
+echo'<div style="page-break-after: always;"></div>';
+echo "<h5><Center>EXHIBIT E</center></h5>";
+require $_SERVER["DOCUMENT_ROOT"].'/leasing/allLeases/personalGuarantee.php';
+}
 ?>
 
 </div>

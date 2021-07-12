@@ -11,4 +11,19 @@
 <li><p><b>Security Interests:</b> It is understood that this transaction is a lease and not a conditional sale or financing agreement. Title and ownership to the Leased Property remain vested in Landlord, and Tenant may not grant a security interest of any kind in the Leased Property. Tenant shall keep the Leased Property free and clear from all levies, attachments, liens and encumbrances. In the event that any person other than Landlord attempts to create or assert an interest in the Leased Property, Tenant shall give Landlord immediate notice thereof and shall take such action as Landlord requires.</p></li>
 
 <li><p><b>Warranties:</b> Landlord will deliver the Leased Property in good usable condition. Landlord makes no other warranties, express or implied, and specifically disclaims any warranty of fitness for a particular purpose or merchantability.</p></li>
+<li><p><b>Furniture Provided:</b>
+<?php
+if (array_sum($furnitureCount) == 0){
+echo "Landlord not providing furniture.</li>";
+}else{
+echo "</li><table class='table table-sm'>";
+echo "<tr><th width = '15%'>Quantity<th>Description</tr>";
+$i=0;
+while ($i < count($furnitureCount)){
+  if ($furnitureCount[$i] >0){echo "<tr><td>".$furnitureCount[$i]."<td>".$furnitureDescription[$i]."</tr>";}
+$i++;
+}
+echo "</table>";
+}
+?>
 </ol>

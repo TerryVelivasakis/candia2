@@ -3,7 +3,8 @@
 
 //require $_SERVER["DOCUMENT_ROOT"].'/includes/bootstrap.php';
 //$suiteNumber = 500;
-
+require $_SERVER["DOCUMENT_ROOT"].'/leasing/executiveLease/leaseData.php';
+$suiteSqft = 200;
 ?>
 
 <div class="container lease">
@@ -38,7 +39,7 @@
     <table class="table table-sm lease">
       <tr><th colspan="4" class="table-info">Recurring Charges</th></tr>
       <tr><th>Description</th><th>Base</th><th>Sales Tax</th><th>Total</th>
-      <tr><td>Rent</td>
+      <tr><td>Rent PSF: $<?php echo number_format($baseRent/$suiteSqft*12,2)?></td>
         <td>$<?php echo number_format($baseRent,2)?></td>
         <td>$<?php echo number_format($baseRent*$salesTaxRate,2)?></td>
         <td>$<?php echo number_format($baseRent*(1+$salesTaxRate),2)?></td></tr>
@@ -101,9 +102,6 @@
 
 <div class = "row">
   <div class="col">
-
-<?php
-?>
 
     <table class="table table-sm lease mb-2"><tr><th class="table-info">Additional Agreements, Improvements, Consessions, & Notes</th></tr></table>
     <table class="table table-sm lease">

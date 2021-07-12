@@ -1,8 +1,6 @@
 <?php
 
-$sqlProperty = "SELECT * FROM property WHERE propertyID = 1";
-$result = $db->query($sqlProperty);
-$property = $result->fetch_assoc();
+
 $sqlRules = "SELECT * FROM rules";
 $rules = $db->query($sqlRules);
 ?>

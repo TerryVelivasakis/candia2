@@ -1,0 +1,15 @@
+.leaseInput{
+  width: 75px !important;
+  height}
+
+  td{
+    vertical-align: middle;
+  }
+
+  .inputAbstract{
+  font-size: 14px;
+  }
+
+  .mgmtOnly{
+    pointer-events: none;
+  }

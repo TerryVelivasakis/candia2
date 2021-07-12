@@ -1,3 +1,7 @@
+<head>
+<title>Candia Holdings Intranet</title>
+</head>
+
 <?php
 //$propertyName = "Candia Tower";
 $sql = "SELECT * FROM property WHERE propertyID = 1";
@@ -23,7 +27,7 @@ $headerQuery = "SELECT DISTINCT header FROM nav";
 $groups = $db->query($headerQuery);
 while($header = $groups->fetch_assoc()) {
   echo '<li class="nav-item dropdown">';
-  echo '<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">'.$header['header'].'</a>';
+  echo '<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><strong>'.$header['header'].'</strong></a>';
   echo '<div class="dropdown-menu">';
   $linkQuery = "SELECT * FROM nav WHERE Header ='".$header['header']."' ORDER BY linkOrder";
   $links = $db->query($linkQuery);

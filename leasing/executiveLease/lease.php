@@ -5,7 +5,7 @@
 
  ?>
 
-<p>This lease agreement is made this <?php echo date("jS \of F, Y")?> between <?php echo $TenantName; ?> hereinafter referred to as Tenant and <?php echo $property['propertyLLC']; ?> (hereinafter referred to as Landlord.) Now, therefore, in consideration of mutual premises, covenants, and conditions set forth below, the Landlord and Tenant agree as follows.</p>
+<p>This lease agreement is made this <?php echo date("jS \of F, Y")?> between <?php echo $tenantName; ?> hereinafter referred to as Tenant and <?php echo $property['propertyLLC']; ?> (hereinafter referred to as Landlord.) Now, therefore, in consideration of mutual premises, covenants, and conditions set forth below, the Landlord and Tenant agree as follows.</p>
 
 <ol>
 <li><p><b>DEMISING CLAUSE:</b> Tenant hereby leases from the Landlord the real property described as
@@ -16,7 +16,11 @@ Offices at <?php echo $property['propertyName']?>, located on the <?php echo ucf
 TERMINATION REQUIRES 30 DAYS WRITTEN NOTICE IN ADVANCE OF NEXT RENEWAL TERM.</p></li>
 
 <li><p><b>RENT:</b> During the term of this lease, the Tenant hereby covenants and agrees to pay Landlord as rent the total sum of $<?php echo number_format($baseRent, 2)?>
- PLUS APPLICABLE SALES TAX <?php echo number_format($salesTaxRate*100, 1);?>% ($<?php echo number_format((float) $salesTax, 2)?>) FOR A TOTAL OF $<?php echo number_format($totalRent, 2);?> without request or demand. PAYABLE IN ADVANCE the first of every month. Checks are payable to <u><?php echo strtoupper($property['propertyLLC']); ?></u></p></li>
+ PLUS APPLICABLE SALES TAX <?php echo number_format($salesTaxRate*100, 1);?>% ($<?php echo number_format((float) $salesTax, 2)?>) FOR A TOTAL OF $<?php echo number_format($totalRent, 2);?> without request or demand. PAYABLE IN ADVANCE the first of every month. Checks are payable to <u><?php echo strtoupper($property['propertyLLC']); ?></u></p>
+<?php echo $prorateText;?>
+
+
+</li>
 <!--
 if ($daystoprorate > 5 and $daystoprorate < 25){
 $a = $baserent/30*$daystoprorate;
@@ -30,8 +34,7 @@ echo "<p>Rent for the month of ".$freemo->format('F, Y')." shall be $0.00 with s
 }
 -->
 <li><p><b>TELECOM SERVICES:</b> In addition to the above stated base rent, Tenant shall pay $<?php echo number_format($telecomMRC,2)
-.' plus Sales Tax of $'.number_format($telecomMRC*$salesTaxRate,2).' for a total of $'.number_format($telecomMRC*(1+$salesTaxRate),2)?>
-to Landlord any additional fees in the telecom agreement attached as “Exhibit B” as additional rent.  Tenant further agrees to pay a one time set up fee of $<?php echo number_format($telecomOTC,2)?></p></li>
+.' plus Sales Tax of $'.number_format($telecomMRC*$salesTaxRate,2).' for a total of $'.number_format($telecomMRC*(1+$salesTaxRate),2)?> to Landlord any additional fees in the telecom agreement attached as “Exhibit B” as additional rent.  Tenant further agrees to pay a one time set up fee of $<?php echo number_format($telecomOTC,2)?></p></li>
 
 <li><p><b>LATE PAYMENTS:</b> Should Tenant fail to pay any installment of annual rent, or any other sum payable to Landlord under the terms of this Lease by the fifth (5th) of the month, the following late charges to cover the extra expense involved in handling such delinquency shall be paid as additional rent by Tenant to Landlord at the time of payment of the delinquent sum. If the lease payment has not been made by the 15th of the month, the Lease is canceled and Tenant has Fifteen (15) days to remove their property or it is considered abandoned. Should lease be canceled as per the terms of this provision, any early termination fees shall become due immediately.
 <ul>
@@ -137,3 +140,6 @@ casualty, force majeure or similar event which causes Landlord to limit access t
 
 <li><p><b>VACATED PREMISES:</b> Any property left in vacated suites will automatically become the property of <?php echo $property['propertyLLC']; ?> if left there after fifteen (15) days.</p></li>
 </ol>
+
+<br><br>	<br><br>
+<center><h4>Signature Page to Follow</h4></center>
