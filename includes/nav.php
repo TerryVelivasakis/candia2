@@ -4,7 +4,7 @@
 
 <?php
 //$propertyName = "Candia Tower";
-$sql = "SELECT * FROM property WHERE propertyID = 1";
+$sql = "SELECT * FROM property WHERE propertyID = ".$currentProperty;
 $result = $db->query($sql);
 $property = $result->fetch_assoc();
 $currentActive = '<span class="visually-hidden">(current)</span>';
@@ -12,7 +12,7 @@ $currentActive = '<span class="visually-hidden">(current)</span>';
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#"><?php echo $property['propertyNickname'];?></a>
+    <a class="navbar-brand" href="http:\\<?php echo $_SERVER['SERVER_NAME']?>"><?php echo $property['propertyNickname'];?></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -22,7 +22,7 @@ $currentActive = '<span class="visually-hidden">(current)</span>';
 
 <?php
 
-$headerQuery = "SELECT DISTINCT header FROM nav";
+$headerQuery = "SELECT DISTINCT header FROM nav ORDER BY headerOrder";
 
 $groups = $db->query($headerQuery);
 while($header = $groups->fetch_assoc()) {

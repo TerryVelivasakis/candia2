@@ -101,7 +101,6 @@ totalMonthlyFee = tcPackagePricing[lamda+1];
   $result = $db->query($sql);
   while($row = $result->fetch_assoc()) {
     if ( $row['inputType'] == 'input' ){
-      //echo "console.log('heres some math that works: '+parseFloat($('#input" . $row['variableID'] . "').val())*". $row['SetupFee'].");";
       echo "tempSetupFee = parseFloat($('#input" . $row['variableID'] . "').val())*". $row['SetupFee'].";"."\n";
       echo "tempMonthlyFee = parseFloat($('#input" . $row['variableID'] . "').val())*". $row['MonthlyFee'].";"."\n";
       //echo "var tempMonthlyFee = $('#input" . $row['variableID'] . "').val() * parseFloat(" . $row['MonthlyFee'].");"."\n";
@@ -205,7 +204,12 @@ return lamda
 }
 
 function saveProspectiveLease(){
-<?php if (isset($_GET['q'])){echo "action = 'update';";}else{echo "action = 'new';";}?>
+<?php if (isset($_GET['q'])){
+  $getQ = $_GET['q'];
+  echo "action = 'update';";
+}else{
+  $getQ = 'NULL';
+  echo "action = 'new';";}?>
 
 i=2;
 furnitureCount = document.getElementById("furniture1").value;
@@ -218,7 +222,8 @@ furnitureAdditional = $("#inputFurniture6").val()+"|"+$("#inputFurniture7").val(
 
 
 leaseData = {
-action : "update",
+action : action,
+leaseID: <?php echo $getQ;?>,
 status: checkIfAcceptablePrice(),
 tenantName: $("#inputleaseName").val(),
 leaseTerm: 1,
@@ -246,8 +251,16 @@ function().done(function(){window.location.href="/leasing/executiveLeaseReview.p
 var jqxhr = $.post( '/dbFunctions/dbExecutiveLease.php', leaseData, function() {
   //alert( "success" );
 })
-  .done(function() {
-    window.location.href="/leasing/executiveLeaseReview.php";
+  .done(function(data) {
+    foo = data.split("|");
+
+    if (foo[0] == "1"){
+      window.location.href="/leasing/executiveLeaseReview.php";
+    }else{
+
+     $("#leaseWarning").addClass('alert-danger');
+      $("#leaseWarningText").html(foo[1]);
+        }
   })
   .fail(function() {
     alert( "error" );
@@ -262,7 +275,7 @@ var jqxhr = $.post( '/dbFunctions/dbExecutiveLease.php', leaseData, function() {
       rent = $("#inputSuiteNumber").find(':selected').data('rent');
       sqft = $("#inputSuiteNumber").find(':selected').data('sqft');
       $("#inputBaseRent").val(parseInt(rent));
-      console.log("Suite "+suite+" rents for $"+rent+" and is "+sqft+" sqft");
+
     }
 
     function checkIfAcceptablePrice(){

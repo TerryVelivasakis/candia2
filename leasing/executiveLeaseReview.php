@@ -51,7 +51,7 @@ require $_SERVER["DOCUMENT_ROOT"].'/includes/nav.php';
               <option value=5>Executed</option>
               <option value=6>Dead Deal</option>
               </select>
-              <button $disabled class='btn btn-secondary' $buttonAction><i class='fas fa-sign-out-alt'></i></button>";
+              <button $disabled class='btn btn-secondary' data-bs-toggle='tooltip' data-bs-placement='right' title='Update Status' $buttonAction><i class='fas fa-sign-out-alt'></i></button>";
 
             $setStatus = $setStatus."schemeUpdate(".$row['pendingLeaseID'].",".$row['status'].");$('#leaseStatus".$row['pendingLeaseID']."').val(".$row['status'].");";
           }
@@ -66,7 +66,7 @@ require $_SERVER["DOCUMENT_ROOT"].'/includes/nav.php';
 
   function postStatusUpdate(id, setStatus){
     var updateValues = {action: "statusUpdate", pendingLeaseID: id, newStatus: setStatus };
-    console.log(updateValues);
+
     var jqxhr = $.post( '/dbFunctions/dbExecutiveLease.php', updateValues, function() {
       //alert( "success" );
     })
@@ -74,7 +74,7 @@ require $_SERVER["DOCUMENT_ROOT"].'/includes/nav.php';
       $("#updateAlert").addClass("alert-info");
 
       output = data.split("|")
-      console.log(output);
+
       if (output[0]=="1"){
         $("#updateAlert").addClass("alert-info");
         $("#updateAlertText").html(output[1]);
@@ -98,14 +98,9 @@ require $_SERVER["DOCUMENT_ROOT"].'/includes/nav.php';
     });
   }
 
-  function foo(id, newStatus){
-    console.log("newStatus: "+newStatus);
-    console.log("ID: "+id);
-  }
 
   function schemeUpdate(id, newStatus){
-    console.log("newStatus: "+newStatus);
-    console.log("ID: "+id);
+
     $("#tdAction"+id).html('');
     $("#tdStatus"+id).html('');
     $("#trStatus"+id).removeClass('table-light');

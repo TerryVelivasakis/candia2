@@ -10,7 +10,6 @@ require $_SERVER["DOCUMENT_ROOT"].'php+js/executiveLease.php';
 
   <div class="alert alert-dismissible" id="leaseWarning" style="display: none">
     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    <h4 class="alert-heading">Warning!</h4>
     <p class="mb-0" id="leaseWarningText">Best check yo self, you're not looking too good. Nulla vitae elit libero, a pharetra augue. Praesent commodo cursus magna.</p>
   </div>
 
@@ -404,7 +403,14 @@ require $_SERVER["DOCUMENT_ROOT"].'php+js/executiveLease.php';
 <script>
 $( document ).ready(function() {
 //$('#incentives').hide();
-<?php echo $blankLease;?>
+<?php //echo $blankLease;
+
+if (isset($_GET['q'])){
+  echo "loadLease();";
+} else {
+  echo "suiteChange();";}
+
+?>
 
 $('#moveInDate').datepicker({startDate: 0,autoclose: true});
 
@@ -425,7 +431,12 @@ $('.abs').each(function(index){
 $("#modalDueAtSigning").toggle();
 
 });
-loadLease();
+
+<?php
+if (isset($_GET['q'])){
+  echo "loadLease();";}
+?>
+
 calcTelecom();
 
 $(':input:not(#inputSuiteNumber)').change(function(){

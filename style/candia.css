@@ -1,4 +1,14 @@
-.datepicker{
-    background-color: #fff;
-    color: #000;
-}
+.datepicker{background-color: #fff;color: #000;}
+[data-phoneStatus] { cursor: pointer; }
+.answerCall{background-color: #87AFC7 !important;}
+.takeMessage{background-color: #3B9C9C !important;}
+.ignoreCall{background-color: #FA8072 !important;}
+.optionHeading{font-weight: bold !important;}
+.smallNum{width: 85px;}
+.box{box-sizing: border-box; border: 15px solid transparent; background-clip:padding-box;}
+.mpFramed{border-style: solid;border-width: 1px;border-radius: 5px;border-color: #3498DB;padding-right: 2px;padding-bottom: 5px; padding-left: 2px;}
+.mpTablePadding{padding-right: 2px;padding-bottom: 5px;padding-left: 2px;}
+.mpFramedInner{border-style: solid;border-width: 1px;border-radius: 5px;border-color: #3498DB;}
+input::-webkit-outer-spin-button,input::-webkit-inner-spin-button {-webkit-appearance: none;margin: 0;}
+input[type="number"] {-moz-appearance: textfield;}
+.clickable{cursor: pointer;}

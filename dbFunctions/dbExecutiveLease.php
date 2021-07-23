@@ -1,13 +1,8 @@
 <?php
 require_once $_SERVER["DOCUMENT_ROOT"].'/includes/dbconfig.php';
-$_POST['status'] = 2;
-$_POST['tenantName'] = '"hobbit"hole';
 
-$Property = 2;
-$suiteNumber = 200;
-$leaseTerm = 2;
 
-if ($_POST['action']=="update"){
+
 $status = $_POST['status'];
 
 $tenantName = addslashes($_POST['tenantName']);
@@ -27,30 +22,39 @@ $furnitureRent = $_POST['furnitureRent'];
 $telecomArray = $_POST['telecomArray'];
 $furnitureCount = $_POST['furnitureCount'];
 $furnitureAdditional = addslashes($_POST['furnitureAdditional']);
+$pendingLeaseID = $_POST['leaseID'];
 
 
 
-
-
+if ($_POST['action']=="update"){
 $sql="UPDATE `executiveLeasePending` SET
 `status` = $status,
 `tenantName` = '$tenantName',
 `leaseTerm` = '$leaseTerm',
 `Property` = '$Property',
 `suiteNumber` = '$suiteNumber',
-`moveInDate` = '2021-05-22',
-`contactName` = 'James Jonatha n Tenant',
-`contactAddress1` = '123 Mai n Street',
-`contactAddress2` = 'Anywh ere, USA 10303',
-`contactPhone` = '(914) 471-5838',
-`contactEmail` = 'jjtentant@tenatcorp.com',
-`directory` = 'James Jonathan pop|',
-`doorSign` = 'James Jonathan popy',
-`rent` = '50',
-`telecomArray` = '1,1,0,1,1,1,4,1,1,1',
-`furnitureCount` = '1,2,3,4,5,6,7,6',
-`furnitureAdditional` = 'chocolate Fo untain|Icecream Machine|Fancy Poster'
-WHERE `executiveLeasePending`.`pendingLeaseID` = 2";
+`moveInDate` = '$moveInDate',
+`contactName` = '$contactName',
+`contactAddress1` = '$contactAddress1',
+`contactAddress2` = '$contactAddress2',
+`contactPhone` = '$contactPhone',
+`contactEmail` = '$contactEmail',
+`directory` = '$directory',
+`doorSign` = '$doorSign',
+`rent` = $rent,
+`telecomArray` = '$telecomArray',
+`furnitureCount` = '$furnitureCount',
+`furnitureAdditional` = '$furnitureAdditional'
+WHERE `executiveLeasePending`.`pendingLeaseID` = $pendingLeaseID";
+
+if ($db->query($sql) === TRUE) {
+  $query= "SELECT * FROM executiveLeasePending WHERE pendingLeaseID = ".$_POST['pendingLeaseID'];
+  $result = $db->query($query);
+  $posted = 1;
+}else{
+  $posted = 0;
+  $alertText = "<b>Something has gone terribly wrong!</b><br> " . $db->error;}
+echo $posted."|".$alertText;
 }
 
 if ($_POST['action']=="new"){
