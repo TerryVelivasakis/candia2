@@ -1,0 +1,32 @@
+.helloworld{}
+
+.txtbtn {
+  border: none;
+  background-color: inherit;
+  padding: 0px 0px;
+  font-size: 14px;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.clickytr{cursor: pointer;}
+.tour{width: 150px}
+
+
+.fixed_header tbody{
+  display:inline-block;
+  width: 100%;
+  overflow: auto;
+  height: 250px;
+}
+.fixed_header thead tr {
+   display: block;
+}
+
+/*general styles*/
+.printable{display:none;}
+/* print styles*/
+@media print {
+ .printable {display:block;}
+ .screen {display:none;}
+}
