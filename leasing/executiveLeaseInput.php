@@ -17,9 +17,7 @@ require $_SERVER["DOCUMENT_ROOT"].'php+js/executiveLease.php';
     <li class="nav-item">
       <a class="nav-link active" data-bs-toggle="tab" href="#basic">Basic Information</a>
     </li>
-    <li class="nav-item">
-      <a class="nav-link" data-bs-toggle="tab" href="#contact">Contact Information</a>
-    </li>
+
     <li class="nav-item">
       <a class="nav-link" data-bs-toggle="tab" href="#signage">Signage</a>
     </li>
@@ -47,12 +45,12 @@ require $_SERVER["DOCUMENT_ROOT"].'php+js/executiveLease.php';
         <div class="form-group col">
           <label for="exampleSelect1" class="form-label">Suite Number</label>
           <select class="form-select" id="inputSuiteNumber" onchange="suiteChange()">
-            <option value = 1 data-rent=500 data-sqft= 100> Suite 1</option>
+
             <?php
-            $sql = "SELECT * FROM `executiveSuites`";
+            $sql = "SELECT * FROM `executiveSuites` ORDER BY SuiteNumber";
             $result = $db->query($sql);
             while($row = $result->fetch_assoc()) {
-              echo "<option value =".$row['SuiteNumber']." data-rent=".$row['TargetRent']." data-sqft=".$row['SqFt'].">".$row['SuiteNumber']."</option>";
+              echo "<option value ='".$row['SuiteNumber']."' data-rent=".$row['TargetRent']." data-sqft=".$row['SqFt'].">".$row['SuiteNumber']."</option>";
             }
             ?>
           </select>
@@ -74,11 +72,7 @@ require $_SERVER["DOCUMENT_ROOT"].'php+js/executiveLease.php';
           </div>
         </div>
       </div>
-    </div>
-    <!-- end of Basic Info Tab -->
-
-    <!-- contact info tab -->
-    <div class="tab-pane fade " id="contact">
+<hr>
       <div class="form-group row mt-4">
         <div class="form-group col">
           <label for="tenantName" class="form-label">Contact Name</label>
@@ -432,10 +426,7 @@ $("#modalDueAtSigning").toggle();
 
 });
 
-<?php
-if (isset($_GET['q'])){
-  echo "loadLease();";}
-?>
+
 
 calcTelecom();
 

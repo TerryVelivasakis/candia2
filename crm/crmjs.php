@@ -8,6 +8,10 @@
     <div id='modalLoad'></div>
   </div>
 </div>
+
+
+
+
 <script>
 
 
@@ -19,7 +23,7 @@ function notetable(){
 }
 
 function addnote(){
-};
+}
 
 
 function callnote(){
@@ -58,7 +62,8 @@ $.post("crmdb.php",{
   lname: document.getElementById("lname").value,
   company: document.getElementById("company").value,
   phone: document.getElementById("phone").value,
-  cell: document.getElementById("cell").value,
+  businessType: document.getElementById("businessType").value,
+  property: document.getElementById("property").value,
   email: document.getElementById("email").value,
   size: document.getElementById("size").value,
   note: document.getElementById('note').value,

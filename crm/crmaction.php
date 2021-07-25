@@ -36,17 +36,27 @@ require $_SERVER['DOCUMENT_ROOT']."/crm/crmjs.php";
   </div>
 </div>
 <!-- Modal -->
-<div class="table-responsive-sm" style="width: 95vw; margin-left: 5px">
+
+<div class=container>
+<div class="table-responsive-sm" >
     <table cellpadding="1" cellspacing="0" class="table table-sm table-bordered" id="prostable">
     <thead>
     <th width="5%"></th>
     <th width="20%">Name</th>
-    <th width="15%">Phone/Cell</th>
+    <th width="15%">Phone</th>
     <th width="15%">Email</th>
     <th width="45%">Action Due</th>
     </tr>
     </thead>
-<?php
+  <tbody>
+    <tr>
+      <td><center><button class='btn'><i class="fas fa-phone fa-lg" /></button></td>
+        <td class= clickable data-propspectID = 2>Terry Velivasakis</td>
+        <td>(914) 471-5828</td>
+        <td><a href="mailto:terry@candiaholdings.com">Terry@candiaholdings.com</a></td>
+        <td>do something</td>
+      </tr>
+  <?php
 $conn = new mysqli($servername, $username, $password, 'CandiaCRM');
 if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
 $sql = "SELECT * FROM Prospects INNER JOIN FollowUpPlan ON Prospects.plannumber=FollowUpPlan.plannumber AND Prospects.Step=FollowUpPlan.step";
@@ -94,7 +104,7 @@ echo '<td><div style="font-size: 1.1rem;"><center>';
 echo '<a href="crmaction.php?q='.$row['ID'].'" class="txtbtn"><i class="fas fa-address-card fa-lg"></a>'.$hr;
 $onclick = '$("#callmodal").modal("show");';
 echo '</i><button class="txtbtn" onclick="showcallmodal('.$row['ID'].')"><i class="fas fa-phone fa-lg"></i></button></td></div>';
-echo '<td>'.$row['FName']." ".$row['LName'];
+echo '<td class=clickable>'.$row['FName']." ".$row['LName'];
 echo '<td> <i>ph - </i>'.$row['Phone']." ".$hr."<i>c - </i>". $row['cell'];
 echo '<td>'.$row['email'];
 echo '<td>'.$actioncell;
@@ -103,8 +113,8 @@ echo '<td>'.$actioncell;
 }
 ?>
 </table>
-
-<div id="test"></div>
+</div>
+</div>
 <input type="hidden" id="prospectID"></input>
 
 <script>

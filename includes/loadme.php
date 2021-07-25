@@ -1,4 +1,5 @@
 <?php
+require_once $_SERVER["DOCUMENT_ROOT"].'/vendor/autoload.php';
 require $_SERVER["DOCUMENT_ROOT"].'/includes/dbconfig.php';
 require $_SERVER["DOCUMENT_ROOT"].'/includes/cookie.php';
 require $_SERVER["DOCUMENT_ROOT"].'/includes/bootstrap.php';

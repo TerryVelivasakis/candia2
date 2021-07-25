@@ -1,6 +1,6 @@
 <?php
 require_once $_SERVER["DOCUMENT_ROOT"].'/includes/dbconfig.php';
-
+if(isset($_GET['q'])){
 $q = $_GET['q'];
 $sql = 'SELECT * FROM Prospects WHERE ID = '.$q;
 $result = $crmDB->query($sql);
@@ -13,6 +13,8 @@ $property= 1;
 $email = $row['email'];
 $source = $row['source'];
 $nextcontact = $row['nextcontact'];
+$size = $row['size'];
+$followUpPlan = $row['plannumber'];
 }
 
 $q = $_GET['q'];
@@ -30,31 +32,31 @@ $tourCard = '<div class="card border-primary mt-1" style="max-width: 20rem;"><di
   $tourCard = '<div class="card border-warning mt-1" style="max-width: 20rem;"><div class="card-header bg-warning">No Tour Scheduled</div>
               <div class="card-body"><p class="card-text">There are no upcoming tours scheduled yet.</p></div></div>';
 }
-
+}else {$nextcontact = date('Y-m-d',strtotime('next weekday'));}
 ?>
 
 <div class="modal-content">
   <div class="modal-header">
-    <h4 class="modal-title">Prospect Details</h4>
+    <h4 class="modal-title">Prospect Details <?php echo $nextcontact;?> </h4>
     <div id="error">
     </div>
   </div>
   <div class='modal-body'>
     <div class='row formBorder'>
-      <div class='form-group col'><label>First Name</Label><input type=text class='form-control' value='<?php echo $firstName;?>'/></div>
-        <div class='form-group col'><label>Last Name</Label><input type=text class='form-control' value='<?php echo $lastName;?>'/></div>
-          <div class='form-group col'><label>Company</Label><input type=text class='form-control' value='<?php echo $company;?>'/></div>
+      <div class='form-group col'><label>First Name</Label><input type=text class='form-control' value='<?php echo $firstName;?>' id='fname'/></div>
+        <div class='form-group col'><label>Last Name</Label><input type=text class='form-control' value='<?php echo $lastName;?>' id='lname'/></div>
+          <div class='form-group col'><label>Company</Label><input type=text class='form-control' value='<?php echo $company;?>' id='company'/></div>
           </div>
           <div class='row mt-2 formBorder'>
-            <div class='form-group col-3'><label>Phone</Label><input type=text class='form-control' value='<?php echo $phone;?>'/></div>
-            <div class='form-group col-5'><label>Email</Label><input type=text class='form-control' value='<?php echo $email;?>'/></div>
-            <div class='form-group col-4'><label>What size office?</Label><input type=text class='form-control'/></div>
+            <div class='form-group col-3'><label>Phone</Label><input type=text class='form-control' value='<?php echo $phone;?>' id='phone'/></div>
+            <div class='form-group col-5'><label>Email</Label><input type=text class='form-control' value='<?php echo $email;?>' id='email'/></div>
+            <div class='form-group col-4'><label>What size office?</Label><input type=text class='form-control' value='<?php echo $size;?>' id='size'/></div>
 
 
                   </div>
                   <div class='row my-2 formBorder'>
 
-                    <div class='form-group col'><label>Type of Business</Label><input type=text class='form-control'/></div>
+                    <div class='form-group col'><label>Type of Business</Label><input type=text class='form-control'  value='<?php echo $businessType;?>' id='businessType'/></div>
                       <div class='form-group col-3'><label>Property</Label><select class='form-select' id='property'>
                             <?php
               $sql = 'SELECT * FROM property';
@@ -112,7 +114,7 @@ $tourCard = '<div class="card border-primary mt-1" style="max-width: 20rem;"><di
 
                             <tr><td><select class='form-select' id=tourHour>
                               <option value=9>9</option>
-                              <option value=10>10</option>
+                              <option value=10 selected>10</option>
                               <option value=11>11</option>
                               <option value=12>12</option>
                               <option value=13> 1</option>
@@ -137,20 +139,23 @@ $tourCard = '<div class="card border-primary mt-1" style="max-width: 20rem;"><di
                       </div>
 
                       <div id ="notebody" class='mt-2 border' style="overflow-y: scroll; height:200px;" width="100%">
-                        <table class='table table-sm table-striped'>
+                        <table class='table table-sm table-striped smallTable' id='noteTable'>
                           <?php
+                          if (isset($_GET['q'])){
                           $sql = "SELECT * FROM `notes` WHERE `prospect`=".$q.' ORDER BY `notes`.`ndate` DESC';
                           $result = $crmDB->query($sql);
                           while($row = $result->fetch_assoc()) {
                             echo '<tr><td width="15%" class="lease">'.$row['editor'].'<br><em> '.date('n/j/Y',strtotime($row['ndate']));
                             echo '<td class="lease">'.$row['note'];
-                          }
+                          }}
                           ?>
                         </table>
                       </div>
                       <div class='row mt-1'>
                         <div class=col-10>
-                      <input id="note" class=form-control type="text"></input></div><div class='col-auto pt-1'><button class="btn btn-primary btn-sm" onclick="addnote()">Add Note</button><span class=pr-3/></div>
+                                            <input id="note" class=form-control type="text"></input></div><div class='col-auto pt-1'><button class="btn btn-primary btn-sm" onclick="addNote()">Add Note</button><span class=pr-3/>
+
+                      </div>
                     </div>
                   </div>
                   <div class='modal-footer'>
@@ -161,5 +166,27 @@ $tourCard = '<div class="card border-primary mt-1" style="max-width: 20rem;"><di
 
 <script>
 $('#source').val(<?php echo $source; ?>);
-<?php echo $hideScript;?>
+$('#plan').val(<?php echo $followUpPlan; ?>);
+function addNote(){
+newNote = $('#note').val();
+
+if (newNote == ""){
+  $('#note').addClass('is-invalid');
+}else{
+  $('#note').removeClass('is-invalid');
+
+  var table = document.getElementById("noteTable");
+  var row = table.insertRow(0);
+  var cell1 = row.insertCell(0);
+  var cell2 = row.insertCell(1);
+  cell1.innerHTML = "<?php echo ucfirst($userName) . '<br><em> '.date('n/j/Y'); ?>";
+
+  cell2.innerHTML = document.getElementById('note').value;
+  document.getElementById('note').value ="";
+
+}
+
+
+}
+
 </script>

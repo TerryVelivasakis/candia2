@@ -1,8 +1,8 @@
 .datepicker{background-color: #fff;color: #000;}
 [data-phoneStatus] { cursor: pointer; }
-.answerCall{background-color: #87AFC7 !important;}
-.takeMessage{background-color: #3B9C9C !important;}
-.ignoreCall{background-color: #FA8072 !important;}
+.answerCall{background-color: #6699CC !important; color: black !important;}
+.takeMessage{background-color: #AC915D !important; color: black !important;}
+.ignoreCall{background-color: #FA8072 !important; color: black !important;}
 .optionHeading{font-weight: bold !important;}
 .smallNum{width: 85px;}
 .box{box-sizing: border-box; border: 15px solid transparent; background-clip:padding-box;}
@@ -12,3 +12,9 @@
 input::-webkit-outer-spin-button,input::-webkit-inner-spin-button {-webkit-appearance: none;margin: 0;}
 input[type="number"] {-moz-appearance: textfield;}
 .clickable{cursor: pointer;}
+
+
+.smallTable{
+font-family: Arial, Helvetica, sans-serif !important;
+font-size: 14px;
+}

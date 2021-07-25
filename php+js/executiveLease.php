@@ -141,7 +141,7 @@ return foobar;
 }
 
 function loadLease() {
-
+  $('#inputSuiteNumber').val('<?php echo  $pendingLeaseData['suiteNumber'];?>')
   $('#inputleaseName').val('<?php echo  $pendingLeaseData['tenantName'];?>');
   $('#inputBaseRent').val(<?php echo $pendingLeaseData['rent']?>);
   $('#inputMoveInDate').val('<?php echo $moveindateinput;?>');

@@ -6,7 +6,8 @@ require_once $_SERVER['DOCUMENT_ROOT']."/crm/crmjs.php";
 
 
 <div class='container'>
-<button class="btn btn-primary m-2" onclick="shownew();">Add New Prospect</button>
+<button class="btn btn-primary m-2" onclick="$('#modalLoad').load('/crm/crmModal.php');
+  $('#DescModal').modal('show');">Add New Prospect</button>
 
 <div class="table-responsive-sm" style="">
 

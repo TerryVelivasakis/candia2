@@ -1,3 +1,4 @@
 **/vendor
 **/img
 test*.*
+**/node_modules
