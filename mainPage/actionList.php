@@ -17,9 +17,18 @@ $sql = "SELECT count(pendingLeaseID) from executiveLeasePending WHERE status =5"
 $result = $db->query($sql);
 while($row = $result->fetch_assoc()) {$movingIn = $row["count(pendingLeaseID)"];}
 
+$sql = "SELECT * FROM Prospects INNER JOIN FollowUpPlan ON Prospects.plannumber=FollowUpPlan.plannumber AND Prospects.Step=FollowUpPlan.step";
+$crmActions = 0;
+$result = $crmDB->query($sql);
+while($row = $result->fetch_assoc()) {
+  $nexttouch = strtotime($row['nextcontact']);
+  $NTD = ($nexttouch - strtotime("today"))/60/60/24;
+  if ($NTD <= 0 && strpos($row['Action'], 'call') !== false) {
+  $crmActions=$crmActions+1;
+}}
 
 //$pendingLeases = 15;
-$crmActions = 6;
+//$crmActions = 6;
 ?>
 <div class='mpFramed'>
     <h5 class="card-header"><?php echo date('l\, F j, Y');?></h5>
@@ -52,10 +61,10 @@ $crmActions = 6;
 function jumpToPage(page){
 
   // 1= CRM 2=Leasing 3= Work ORders 4=move outs
-console.log(page);
+
 switch(page){
   case 1:
-  jumpto = ''
+  jumpto = 'crm/crmaction.php'
   break;
   case 2:
   jumpto = 'leasing/executiveLeaseReview.php'

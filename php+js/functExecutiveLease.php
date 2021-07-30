@@ -205,10 +205,10 @@ return lamda
 
 function saveProspectiveLease(){
 <?php if (isset($_GET['q'])){
-  $getQ = $_GET['q'];
+  echo "var leaseid = ". $_GET['q'].';';
   echo "action = 'update';";
 }else{
-  $getQ = 'NULL';
+  echo "var leaseid = 'none';";
   echo "action = 'new';";}?>
 
 i=2;
@@ -223,17 +223,18 @@ furnitureAdditional = $("#inputFurniture6").val()+"|"+$("#inputFurniture7").val(
 
 leaseData = {
 action : action,
-leaseID: <?php echo $getQ;?>,
+leaseID: leaseid,
 status: checkIfAcceptablePrice(),
 tenantName: $("#inputleaseName").val(),
 leaseTerm: 1,
-Property: <?php echo $currentProperty;?>,
+Property: $("#inputSuiteNumber").find(':selected').data('building'),
 suiteNumber: $("#inputSuiteNumber").val(),
 moveInDate:$("#inputMoveInDate").val(),
 contactName:$("#inputContactName").val(),
 contactAddress1:$("#inputAddress1").val(),
 contactAddress2:$("#inputAddress2").val(),
 contactPhone:$("#inputContactPhone").val(),
+contactCell:$("#inputContactCell").val(),
 contactEmail:$("#inputContactEmail").val(),
 directory:$("#inputDirectoryLine1").val()+"|"+$("#inputDirectoryLine2").val(),
 doorSign:$("#inputDoorSign").val(),
@@ -247,7 +248,7 @@ furnitureAdditional:furnitureAdditional
 $.post('/dbFunctions/dbExecutiveLease.php', leaseData)
 function().done(function(){window.location.href="/leasing/executiveLeaseReview.php";}).fail(function(){alert( "error" );});
 */
-
+console.log(leaseData);
 var jqxhr = $.post( '/dbFunctions/dbExecutiveLease.php', leaseData, function() {
   //alert( "success" );
 })
@@ -279,14 +280,22 @@ var jqxhr = $.post( '/dbFunctions/dbExecutiveLease.php', leaseData, function() {
     }
 
     function checkIfAcceptablePrice(){
+      term = parseInt($('#selectTerm').val());
+    //  term = 12;
+      if (term == 12){maxDiscount = 0.75;}
+      if (term >= 6 && term < 12){maxDiscount = 0.8;}
+      if (term >= 3 && term < 6){maxDiscount = 0.85;}
+      if ( term < 3){maxDiscount = 0.9;}
+
+      console.log('max discount:' + maxDiscount);
       suite = $("#inputSuiteNumber").val();
       rent = $("#inputSuiteNumber").find(':selected').data('rent');
-      if ($("#inputBaseRent").val() < (parseInt(rent)*.85)){
+      if ($("#inputBaseRent").val() < (parseInt(rent)* maxDiscount)){
         $("#leaseWarning").addClass('alert-warning');
         $("#leaseWarningText").html('<strong>Out of Acceptable Range</strong><br>This lease will require management approval');
         $("#leaseWarning").show();
         return 2;
-      } else { return 1;}
+      } else {$("#leaseWarning").hide(); return 1;}
     }
 
 

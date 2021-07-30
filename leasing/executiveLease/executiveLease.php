@@ -28,11 +28,13 @@ echo "<h5><Center>EXHIBIT C</center></h5>";
 require $_SERVER["DOCUMENT_ROOT"].'/leasing/executiveLease/furniture.php';
 echo'<div style="page-break-after: always;"></div>';
 echo "<h5><Center>EXHIBIT D</center></h5>";
-require $_SERVER["DOCUMENT_ROOT"].'/leasing/allLeases/keyReceipt.php';
-
-if ($personalGuarantee != ""){
+require $_SERVER["DOCUMENT_ROOT"].'/leasing/allLeases/wifieula.php';
 echo'<div style="page-break-after: always;"></div>';
 echo "<h5><Center>EXHIBIT E</center></h5>";
+require $_SERVER["DOCUMENT_ROOT"].'/leasing/allLeases/keyReceipt.php';
+if ($personalGuarantee != ""){
+echo'<div style="page-break-after: always;"></div>';
+echo "<h5><Center>EXHIBIT F</center></h5>";
 require $_SERVER["DOCUMENT_ROOT"].'/leasing/allLeases/personalGuarantee.php';
 }
 ?>

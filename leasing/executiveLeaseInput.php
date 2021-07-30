@@ -1,7 +1,8 @@
 <?php
 require $_SERVER["DOCUMENT_ROOT"].'includes/loadme.php';
 require $_SERVER["DOCUMENT_ROOT"].'/includes/nav.php';
-require $_SERVER["DOCUMENT_ROOT"].'php+js/executiveLease.php';
+require $_SERVER["DOCUMENT_ROOT"].'php+js/functExecutiveLease.php';
+session_start();
 ?>
 
 <link rel="stylesheet" href="\style\forms.css">
@@ -47,10 +48,11 @@ require $_SERVER["DOCUMENT_ROOT"].'php+js/executiveLease.php';
           <select class="form-select" id="inputSuiteNumber" onchange="suiteChange()">
 
             <?php
-            $sql = "SELECT * FROM `executiveSuites` ORDER BY SuiteNumber";
+            $sql = "SELECT * FROM `executiveSuites` es WHERE BuildingID = ".$_SESSION['property']." AND NOT EXISTS ( SELECT NULL FROM `executiveLease` el WHERE el.suiteNumber = es.SuiteNumber AND el.Property = es.BuildingID AND el.status = 1 )";
             $result = $db->query($sql);
             while($row = $result->fetch_assoc()) {
-              echo "<option value ='".$row['SuiteNumber']."' data-rent=".$row['TargetRent']." data-sqft=".$row['SqFt'].">".$row['SuiteNumber']."</option>";
+              echo "<option value ='".$row['SuiteNumber']."' data-rent=".$row['TargetRent']." data-sqft=".$row['SqFt']." data-building=".$row['BuildingID'].">".$row['SuiteNumber']." - "
+              .number_format($row['SqFt'],0)."sf</option>";
             }
             ?>
           </select>
@@ -65,10 +67,29 @@ require $_SERVER["DOCUMENT_ROOT"].'php+js/executiveLease.php';
           </div>
         </div>
 
-        <div class="form-group col">
+        <div class="form-group col-2">
           <label for="moveInDate" class="form-label">Move In Date</label>
           <div class="input-group date">
             <input type="text" class="form-control" id="inputMoveInDate" value=>
+          </div>
+        </div>
+        <div class="form-group col-2">
+          <label for="moveInDate" class="form-label">Term</label>
+          <div class="input-group">
+            <select id='selectTerm' class='form-select'>
+              <option value = 1>Month to Month</option>
+              <option value = 2>2 Months</option>
+              <option value = 3>3 Months</option>
+              <option value = 4>4 Months</option>
+              <option value = 5>5 Months</option>
+              <option value = 6>6 Months</option>
+              <option value = 7>7 Months</option>
+              <option value = 8>8 Months</option>
+              <option value = 9>9 Months</option>
+              <option value = 10>10 Months</option>
+              <option value = 11>11 Months</option>
+              <option value = 12>1 Year</option>
+            </select>
           </div>
         </div>
       </div>
@@ -92,9 +113,13 @@ require $_SERVER["DOCUMENT_ROOT"].'php+js/executiveLease.php';
       </div>
 
       <div class="form-group row mt-4">
-        <div class="form-group col-4">
+        <div class="form-group col-3">
           <label for="tenantName" class="form-label ">Phone</label>
           <input type="text" class="form-control" id="inputContactPhone" placeholder="Phone Number">
+        </div>
+        <div class="form-group col-3">
+          <label for="tenantName" class="form-label ">Cell</label>
+          <input type="text" class="form-control" id="inputContactCell" placeholder="Cell Number">
         </div>
 
         <div class="form-group col">
@@ -299,12 +324,13 @@ require $_SERVER["DOCUMENT_ROOT"].'php+js/executiveLease.php';
           <div class="w-50 m-4">
             <table class="table table-sm">
               <tr><th class="table-primary">Incentives</th></tr>
-              <tr><td><div class="form-check form-switch ml-3"><input class="form-check-input " type="checkbox" id="incentive1">Third Month Free</div></td></tr>
-              <tr><td><div class="form-check form-switch ml-3"><input class="form-check-input " type="checkbox" id="incentive2">Third Month Free</div></td></tr>
-              <tr><td><div class="form-check form-switch ml-3"><input class="form-check-input " type="checkbox" id="incentive3">Third Month Free</div></td></tr>
+              <tr><td><div class="form-check form-switch"><input class="form-check-input " type="checkbox" id="3moFree">Third Month Free</div></td></tr>
+              <tr><td><div class="form-check form-switch"><input class="form-check-input " type="checkbox" id="restmoFree">Remainder of First Month Free</div></td></tr>
+              <tr><th class="table-primary">Governmental</th></tr>
+              <tr><td><div class="form-check form-switch"><input class="form-check-input " type="checkbox" id="taxExempt">Tax Exempt</div></td></tr>
               <tr><th class="table-primary">Additional Guarantees</th></tr>
-              <tr><td><div class="form-check form-switch ml-3"><input class="form-check-input " type="checkbox" id="guarantee1">Personal Guarantee</div></td></tr>
-              <tr><td><div class="form-check form-switch ml-3"><input class="form-check-input " type="checkbox" id="guarantee2">Document Review</div></td></tr>
+              <tr><td><div class="form-check form-switch"><input class="form-check-input " type="checkbox" id="guarantee">Personal Guarantee</div></td></tr>
+              <tr><td><div class="form-check form-switch"><input class="form-check-input " type="checkbox" id="docReview">Document Review</div></td></tr>
             </table>
           </div>
         </div>
@@ -411,13 +437,17 @@ $('#moveInDate').datepicker({startDate: 0,autoclose: true});
 $("#inputMoveInDate").datepicker().datepicker("setDate", new Date('<?php echo $moveindate;?>'));
 $("#leaseWarning").hide();
 
+
+
 $("#modalButton").on("click",function(){
-var totalRent =   $("#inputBaseRent").val()*(1+SalexTax);
+if (document.getElementById('taxExempt').checked){
+ fltx = 0 ; }else{  fltx = SalexTax;}
+
+var totalRent =   $("#inputBaseRent").val()*(1 + fltx);
 var telecom = calcTelecom()
 var SecurityDeposit = $("#inputBaseRent").val()*1.25;
-var DueAtSigning = totalRent + telecom[2] + SecurityDeposit + $('#furnitureRent').val();
-
-var leaseValues = [$("#inputBaseRent").val(), $("#inputBaseRent").val()*SalexTax, totalRent, telecom[0],
+var DueAtSigning = totalRent + telecom[2] + SecurityDeposit + parseFloat($('#furnitureRent').val());
+var leaseValues = [$("#inputBaseRent").val(), $("#inputBaseRent").val()*fltx, totalRent, telecom[0],
       telecom[1], telecom[2], SecurityDeposit, $('#furnitureRent').val() ,DueAtSigning, DueAtSigning*.05, DueAtSigning*1.05];
 $('.abs').each(function(index){
   $('.abs:eq('+index+')').html(currencyFormatter.format(leaseValues[index]));
@@ -435,7 +465,10 @@ $(':input:not(#inputSuiteNumber)').change(function(){
   checkIfAcceptablePrice();
   document.getElementById('cbInternet').checked = true;
 });
+  checkIfAcceptablePrice();
 });
+
+
 
 
 </script>

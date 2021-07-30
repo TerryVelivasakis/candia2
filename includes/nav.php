@@ -3,14 +3,15 @@
 </head>
 
 <?php
+session_start();
 //$propertyName = "Candia Tower";
-$sql = "SELECT * FROM property WHERE propertyID = ".$currentProperty;
+$sql = "SELECT * FROM property WHERE propertyID = ".$_SESSION['property'];
 $result = $db->query($sql);
 $property = $result->fetch_assoc();
 $currentActive = '<span class="visually-hidden">(current)</span>';
 ?>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary no-print">
   <div class="container-fluid">
     <a class="navbar-brand" href="http:\\<?php echo $_SERVER['SERVER_NAME']?>"><?php echo $property['propertyNickname'];?></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">

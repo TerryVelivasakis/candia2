@@ -23,7 +23,7 @@ require $_SERVER["DOCUMENT_ROOT"].'/includes/nav.php';
           $setStatus = "";
           $noBueno = array(2,3);
           $noDisplayStatus = array(3,6);
-          $sql = "SELECT * FROM `executiveLeasePending` WHERE pendingLeaseID";
+          $sql = "SELECT * FROM `executiveLeasePending` WHERE status > 0";
           $result = $db->query($sql);
           while($row = $result->fetch_assoc()) {
             $daysAgo = (strtotime("today") - strtotime($row['moveInDate']))/ 86400;
@@ -35,8 +35,9 @@ require $_SERVER["DOCUMENT_ROOT"].'/includes/nav.php';
             echo "<td id='tdAction".$row['pendingLeaseID']."' datasort=".$row['status'].'>';
 
             $disabled="";
+            $executeButton = '<button class="btn btn-sm btn-info" onclick="executeLease('.$row['pendingLeaseID'].')">Finalize</button> ';
             if ($accessLevel < 2){
-
+              $executeButton = '';
               if (in_array($row['status'], $noBueno)){$disabled="disabled"; }else{$disabled="";}
                   }
               $buttonAction ="onclick = postStatusUpdate(".$row['pendingLeaseID'].",$('#leaseStatus".$row['pendingLeaseID']."').val())";
@@ -71,6 +72,9 @@ require $_SERVER["DOCUMENT_ROOT"].'/includes/nav.php';
       //alert( "success" );
     })
     .done(function(data) {
+      $("#updateAlert").removeClass("alert-info");
+      $("#updateAlert").removeClass("alert-warning");
+      $("#updateAlert").removeClass("alert-danger");
       $("#updateAlert").addClass("alert-info");
 
       output = data.split("|")
@@ -106,6 +110,9 @@ require $_SERVER["DOCUMENT_ROOT"].'/includes/nav.php';
     $("#trStatus"+id).removeClass('table-light');
     $("#trStatus"+id).removeClass('table-primary');
     switch (parseInt(newStatus)) {
+      case 0:
+      $("#trStatus"+id).hide();
+      break;
       case 1:
       $("#tdStatus"+id).html('<span class="badge bg-primary">Approved</span>');
       $("#tdAction"+id).html('<button class="btn btn-sm btn-primary" onclick=window.open("/leasing/executiveLease/executiveLease.php?q='+id+'")>Lease</button>');
@@ -129,9 +136,10 @@ require $_SERVER["DOCUMENT_ROOT"].'/includes/nav.php';
       break;
 
       case 5:
+
       $("#tdStatus"+id).html('<span class="badge bg-info">Lease<br>Executed</span>');
       $("#trStatus"+id).addClass('table-primary');
-      $("#tdAction"+id).html('<button class="btn btn-sm btn-info" onclick=window.open("/leasing/executiveLease/abstractOnly.php?q='+id+'")>Abstract</button>');
+      $("#tdAction"+id).html('<button class="btn btn-sm btn-info" <?php echo $disabled; ?> onclick=executeLease('+id+')>Finalize</button>');
 
       break;
 
@@ -142,6 +150,43 @@ require $_SERVER["DOCUMENT_ROOT"].'/includes/nav.php';
 
   }
 
+  function executeLease(id){
+    var updateValues = {action: "finalize", pendingLeaseID: id };
+
+    var jqxhr = $.post( '/dbFunctions/dbExecutiveLease.php', updateValues, function() {
+      //alert( "success" );
+    })
+    .done(function(data) {
+      $("#updateAlert").addClass("alert-info");
+
+      output = data.split("|")
+
+      if (output[0]=="1"){
+        $("#updateAlert").addClass("alert-info");
+        $("#updateAlertText").html(output[1]);
+        postStatusUpdate(id, 0);
+        schemeUpdate(id, 0);
+      }else{
+        $("#updateAlert").addClass("alert-warning");
+        $("#updateAlertText").html(output[1]);
+
+      }
+
+      $("#updateAlert").show();
+
+      //  foo(id);
+    })
+    .fail(function() {
+      $("#updateAlert").addClass("alert-danger");
+      $("#updateAlertText").html("Now why would you go and break everything?");
+    })
+    .always(function() {
+      //  alert( "finished" );
+    });
+  }
+
+
+
   $(document).ready(function(){
     $('#reviewTable').DataTable({
       responsive: true,
@@ -149,12 +194,5 @@ require $_SERVER["DOCUMENT_ROOT"].'/includes/nav.php';
       "searching": false,
       "info":     false});
       <?php echo $setStatus; ?>
-
-
-
-
-
-
-
     });
   </script>

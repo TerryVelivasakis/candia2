@@ -6,6 +6,8 @@ while ($row = $result->fetch_assoc()){
 ${$row['varName']} = floatval($row['value']);
 }
 
+function formatPhone($ph){if(preg_match( '/^\+\d(\d{3})(\d{3})(\d{4})$/', $ph,  $matches ) ){$result = '('.$matches[1] . ') ' .$matches[2] . '-' . $matches[3];return $result;}}
+
 ?>
 <script>
 var currencyFormatter = new Intl.NumberFormat('en-US', {

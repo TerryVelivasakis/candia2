@@ -30,8 +30,9 @@ $pendingLease = $_GET['q'];
 $sql = "SELECT * FROM executiveLeasePending WHERE pendingLeaseID = ".$pendingLease;
 $result = $db->query($sql);
 $prospectiveTenant = $result->fetch_assoc() or die("Invalid Selection, do better");
-$sql = "SELECT * FROM property WHERE propertyID = ".$prospectiveTenant['Property'];
-@$result = $db->query($sql);
+$leaseProperty = $prospectiveTenant['Property'];
+$sql = "SELECT * FROM property WHERE propertyID = ".$leaseProperty;
+$result = $db->query($sql);
 $property = $result->fetch_assoc();
 
 //basic info

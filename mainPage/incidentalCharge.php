@@ -4,10 +4,32 @@
 
 <table>
   <tr><th colspan=4>
-    <select class="form-select" id='tenant'>
-      <option>Tenant 1</option>
-      <option>Tenant 2</option>
-      <option>Tenant 3</option>
+    <select class="form-select" id='selectTenantDent'>
+<?php
+
+$groupQuery = "SELECT * FROM `executiveLease` WHERE `status` = 1";
+$groups = $db->query($groupQuery);
+while($row = $groups->fetch_assoc()) {
+  $tenantID = $row['leaseID'];
+echo "<option value=$tenantID>";
+if ($row['contactName'] == $row['tenantName']){
+  echo $row['suiteNumber'].' - '.$row['tenantName'].'</option>';
+}else{
+  echo $row['suiteNumber'].' - '.$row['contactName'].' - '.$row['tenantName'].'</option>';
+}
+}
+
+$sql = "SELECT tenantContacts.*, executiveLease.* FROM tenantContacts JOIN executiveLease ON executiveLease.leaseID = tenantContacts.leaseID WHERE executiveLease.status = 1 AND tenantContacts.incidentals = 1";
+$result = $db->query($sql);
+
+while($row = $result->fetch_assoc()) {
+echo '<option value ='.$row['leaseID'].'>';
+echo $row['suiteNumber'].' - '.$row['addContactName'].' - '.$row['tenantName'].'</option>';
+$x=$x+1;
+
+}
+
+?>
     </select></tr>
 
 
@@ -53,3 +75,16 @@
                   </table>
 </div>
 </div>
+
+<script>
+$(document).ready(function(){
+  var options = $("#selectTenantDent option");                    // Collect options
+  options.detach().sort(function(a,b) {               // Detach from select, then Sort
+      var at = $(a).text();
+      var bt = $(b).text();
+      return (at > bt)?1:((at < bt)?-1:0);            // Tell the sort function how to order
+  });
+  options.appendTo("#selectTenantDent");
+  checkdata();
+  });
+</script>
