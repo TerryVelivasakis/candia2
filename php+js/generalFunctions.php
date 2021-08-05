@@ -6,8 +6,13 @@ while ($row = $result->fetch_assoc()){
 ${$row['varName']} = floatval($row['value']);
 }
 
-function formatPhone($ph){if(preg_match( '/^\+\d(\d{3})(\d{3})(\d{4})$/', $ph,  $matches ) ){$result = '('.$matches[1] . ') ' .$matches[2] . '-' . $matches[3];return $result;}}
 
+function mb_escape( $string){
+if (is_null($string)){
+  return "";
+}else{
+  return mb_ereg_replace('[\x00\x0A\x0D\x1A\x22\x27\x5C]', '\\\0', $string);}
+}
 ?>
 <script>
 var currencyFormatter = new Intl.NumberFormat('en-US', {
@@ -21,7 +26,7 @@ var currencyFormatter = new Intl.NumberFormat('en-US', {
 
 
 
-const SalexTax = <?php echo $salesTaxRate;?>
+const SalesTax = <?php echo $salesTaxRate;?>
 
 
 
@@ -37,6 +42,12 @@ function dateDifference($date_1 , $date_2 , $differenceFormat = '%a' )
 
     return $interval->format($differenceFormat);
 
+}
+
+$sql = "SELECT * FROM `property`";
+$result = $db->query($sql);
+while($row = $result->fetch_assoc()) {
+  $propertynick[$row['propertyID']] = $row['propertyNickname'];
 }
 
 ?>

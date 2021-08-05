@@ -37,7 +37,7 @@ session_start();
     <!-- Start of Basic Info Tab -->
     <div class="tab-pane fade show active p-1" id="basic">
       <div class="form-group row mt-4">
-        <div class="form-group col">
+        <div class="form-group col require" id='divTenantName'>
           <label for="leaseName" class="form-label ">Tenant Name</label>
           <input type="text" class="form-control" id="inputleaseName" placeholder="Name for Lease">
         </div>
@@ -95,34 +95,34 @@ session_start();
       </div>
 <hr>
       <div class="form-group row mt-4">
-        <div class="form-group col">
+        <div class="form-group col require">
           <label for="tenantName" class="form-label">Contact Name</label>
           <input type="text" class="form-control" id="inputContactName" placeholder="Contact Name">
         </div>
       </div>
       <div class="form-group row mt-4">
-        <div class="form-group col">
+        <div class="form-group col require">
           <label for="tenantName" class="form-label ">Address</label>
           <input type="text" class="form-control" id="inputAddress1" placeholder="Street Address">
         </div>
 
-        <div class="form-group col">
+        <div class="form-group col require">
           <label for="tenantName" class="form-label ">City, State Zip</label>
           <input type="text" class="form-control" id="inputAddress2" placeholder="City, State Zip">
         </div>
       </div>
 
-      <div class="form-group row mt-4">
-        <div class="form-group col-3">
-          <label for="tenantName" class="form-label ">Phone</label>
-          <input type="text" class="form-control" id="inputContactPhone" placeholder="Phone Number">
+      <div class="form-group row mt-4 ">
+        <div class="form-group col-3 requirePhone">
+          <label for="tenantName" class="form-label ">Primary Phone</label>
+          <input type="text" class="form-control phone" id="inputContactPhone" placeholder="Phone Number">
         </div>
         <div class="form-group col-3">
-          <label for="tenantName" class="form-label ">Cell</label>
-          <input type="text" class="form-control" id="inputContactCell" placeholder="Cell Number">
+          <label for="tenantName" class="form-label requirePhone">Cell</label>
+          <input type="text" class="form-control phone" id="inputContactCell" placeholder="Cell Number">
         </div>
 
-        <div class="form-group col">
+        <div class="form-group col require">
           <label for="tenantName" class="form-label ">Email</label>
           <input type="text" class="form-control" id="inputContactEmail" placeholder="Contact Name">
         </div>
@@ -419,10 +419,30 @@ session_start();
       </div>
     </div>
 </div>
+
+<button onclick='checkForm()'>asdf</button>
 </body>
 <script>
 $( document ).ready(function() {
-//$('#incentives').hide();
+  $( ".phone" ).focusout( function() {
+
+    phone = $(this).val();
+
+    var phoneTest = new RegExp(/^((\+1)|1)? ?\(?(\d{3})\)?[ .-]?(\d{3})[ .-]?(\d{4})( ?(ext\.? ?|x)(\d*))?$/);
+
+    phone = phone.trim();
+    var results = phoneTest.exec(phone);
+    console.log(phone);
+    if (results !== null && results.length > 8) {
+
+      $(this).val( "(" + results[3] + ") " + results[4] + "-" + results[5] + (typeof results[8] !== "undefined" ? " x" + results[8] : ""));
+
+    }
+    else {
+       $(this).val( phone);
+    }
+
+  });
 <?php //echo $blankLease;
 
 if (isset($_GET['q'])){
@@ -466,8 +486,59 @@ $(':input:not(#inputSuiteNumber)').change(function(){
   document.getElementById('cbInternet').checked = true;
 });
   checkIfAcceptablePrice();
+
+
+
+
+
 });
 
+function checkForm(){
+  missingdata = "";
+goodtogo = true;
+$("#leaseWarning").removeClass('alert-primary alert-warning alert-danger');
+$('.require').each(function(i, obj) {
+  $(this).children(":input").removeClass('is-invalid');
+  $(this).children(":input").removeClass('is-valid');
+if ($(this).children(":input").val() == ""){
+  $(this).children(":input").addClass('is-invalid');
+  missingdata += $(this).children(":input").attr('placeholder') + " is Required. "
+  goodtogo=false;
+}else{
+$(this).children(":input").addClass('is-valid');
+
+}
+});
+
+$("#inputContactCell").removeClass('is-invalid');
+$("#inputContactCell").removeClass('is-valid');
+$("#inputContactPhone").removeClass('is-invalid');
+$("#inputContactPhone").removeClass('is-valid');
+
+
+if ($("#inputContactCell").val() == "" && $("#inputContactPhone").val() == ""){
+  goodtogo = false
+  missingdata += "A Phone Number is Required. "
+  $("#inputContactCell").addClass('is-invalid');
+  $("#inputContactPhone").addClass('is-invalid');
+}else{
+  $("#inputContactCell").addClass('is-valid');
+  $("#inputContactPhone").addClass('is-valid');
+
+}
+
+
+
+
+
+if (goodtogo == false){
+  $("#leaseWarning").addClass('alert-primary');
+   $("#leaseWarningText").html('<b>Missing Required Fields</b><br>' + missingdata);
+   $("#leaseWarning").show();
+ }
+
+return goodtogo;
+}
 
 
 

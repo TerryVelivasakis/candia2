@@ -3,7 +3,18 @@ require $_SERVER["DOCUMENT_ROOT"].'includes/loadme.php';
 require $_SERVER["DOCUMENT_ROOT"].'/includes/nav.php';
 ?>
 <div class='container mt-2'>
+  <fieldset class="form-group">
+    <div class='row'>
 
+        <h5 class="mt-4">Quick Search</h5>
+        <div class=col-auto>
+        <div class="form-check">
+          <label class="form-check-label">
+            <input type="radio" class="form-check-input qsProperty" name="qsProperty" id="optionsRadios1" value="all" checked="">
+            All Properties
+          </label>
+        </div>
+      </div>
 <?php
 
 $sql = "SELECT * FROM `property`";
@@ -11,14 +22,16 @@ $result = $db->query($sql);
 while($row = $result->fetch_assoc()) {
   $foo = $row['propertyNickname'];
   $propertyName[$row['propertyID']]=$foo;
-echo '<div class="form-check form-switch">';
-  echo '<input class="form-check-input" type="checkbox" checked="" id="switch'.$foo.'" data-switcher="bldg'.$row['propertyID'].'" >';
-  echo '<label class="form-check-label" for="switch'.$foo.'">'.$row['propertyNickname'].'</label>';
-echo '</div>';
+echo '<div class=col-auto><div class="form-check">';
+  echo '<label class="form-check-label">';
+  echo '<input type="radio" class="form-check-input qsProperty" name="qsProperty" id="options'.$foo.'" value="'.$foo.'">';
+  echo $foo.'</label>';
+echo '</div></div>';
 }
 
  ?>
-
+</fieldset>
+<hr>
 <table class='table' id='availableSuites'>
 <thead>
   <tr><th>Suite Number<Th>Square Feet<th>Target Rent<th>Windows<th>Property
@@ -26,7 +39,7 @@ echo '</div>';
 <tbody>
 
 <?php
-$sql = "SELECT * FROM `executiveSuites` es WHERE BuildingID = ".$_SESSION['property']." AND NOT EXISTS ( SELECT NULL FROM `executiveLease` el WHERE el.suiteNumber = es.SuiteNumber AND el.Property = es.BuildingID AND el.status = 1 )";
+$sql = "SELECT * FROM `executiveSuites` es WHERE NOT EXISTS ( SELECT NULL FROM `executiveLease` el WHERE el.suiteNumber = es.SuiteNumber AND el.Property = es.BuildingID AND el.status = 1 )";
 $result = $db->query($sql);
 
 while($row = $result->fetch_assoc()) {
@@ -49,7 +62,7 @@ echo "<td>".$propertyName[$row['BuildingID']];
 
 </tbody>
 </table>
-hi
+
 </div>
 <script>
 
@@ -57,6 +70,15 @@ $(document).ready(function(){
   $('#availableSuites').DataTable({});
 });
 
+$('.qsProperty').click(function(){
+  var table = $('#availableSuites').DataTable();
+if ($("input[name='qsProperty']:checked").val() == 'all'){
+  table.columns(4).search('').draw();
+}else{
+
+table.columns(4).search($("input[name='qsProperty']:checked").val()).draw();
+}
+});
 
 
 </script>

@@ -1,5 +1,6 @@
 <?php
 require $_SERVER["DOCUMENT_ROOT"].'/leasing/executiveLease/leaseData.php';
+
 require $_SERVER["DOCUMENT_ROOT"].'/leasing/executiveLease/abstract.php';
 echo'<div style="page-break-after: always;"></div><div class="container lease">
 
@@ -22,7 +23,7 @@ require $_SERVER["DOCUMENT_ROOT"].'/leasing/allLeases/incidentalPricing.php';
 echo'<div style="page-break-after: always;"></div>';
 echo "<h5><Center>EXHIBIT B</center></h5>";
 require $_SERVER["DOCUMENT_ROOT"].'/leasing/executiveLease/telecom.php';
-//*/
+
 echo'<div style="page-break-after: always;"></div>';
 echo "<h5><Center>EXHIBIT C</center></h5>";
 require $_SERVER["DOCUMENT_ROOT"].'/leasing/executiveLease/furniture.php';

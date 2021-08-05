@@ -5,8 +5,8 @@
 </style>
 
 <h5 class="card-header">Add Work Order</h5>
-<div>
-<table class='table table-sm'>
+<div class='w-100'>
+<table width=100%>
   <tr>
     <td width=50%>Priority</td>
     <td>Category</td>
@@ -27,7 +27,7 @@
     </td>
 
     <td>
-      <div class = "addSpacing">
+      <div>
         <select class="form-select addSpacing" id="selCategory">
           <option value="" disabled selected>Category</option>
           <option value='electric'>Electric</option>
@@ -52,7 +52,7 @@
       </div>
     </td>
     <td>
-      <div class = "addSpacing">
+      <div >
         <input id='inputrequester' class='form-control'></input>
       </td>
     </div>
@@ -64,7 +64,7 @@
     <td colspan=2><input class='form-control' id='inputWODescription'></input></td>
   </tr>
 </table>
-<div class=mt-2>
+<div class=my-2>
 <button class='btn btn-sm btn-primary'>Add Work Order</button>
 <button class='btn btn-sm btn-Secondary' onclick='clearForm()'>Clear Form</button>
 </div>

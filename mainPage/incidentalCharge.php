@@ -1,4 +1,4 @@
-<div class='mpFramedInner'>
+
 <h5 class="card-header">Incidental Charge</h5>
 <div class='mpTablePadding'>
 
@@ -6,8 +6,8 @@
   <tr><th colspan=4>
     <select class="form-select" id='selectTenantDent'>
 <?php
-
-$groupQuery = "SELECT * FROM `executiveLease` WHERE `status` = 1";
+session_start();
+$groupQuery = "SELECT * FROM `executiveLease` WHERE `status` = 1 AND `Property` = ".$_SESSION['property'];
 $groups = $db->query($groupQuery);
 while($row = $groups->fetch_assoc()) {
   $tenantID = $row['leaseID'];
@@ -19,7 +19,7 @@ if ($row['contactName'] == $row['tenantName']){
 }
 }
 
-$sql = "SELECT tenantContacts.*, executiveLease.* FROM tenantContacts JOIN executiveLease ON executiveLease.leaseID = tenantContacts.leaseID WHERE executiveLease.status = 1 AND tenantContacts.incidentals = 1";
+$sql = "SELECT tenantContacts.*, executiveLease.* FROM tenantContacts JOIN executiveLease ON executiveLease.leaseID = tenantContacts.leaseID WHERE executiveLease.status = 1 AND tenantContacts.incidentals = 1 AND `Property` = ".$_SESSION['property'];
 $result = $db->query($sql);
 
 while($row = $result->fetch_assoc()) {
@@ -74,7 +74,7 @@ $x=$x+1;
                     data-bs-toggle='tooltip'  data-bs-placement='bottom' title='Quick Charge' onclick="postCharge(2)"><i class="fas fa-file-invoice-dollar"></i></button></td>
                   </table>
 </div>
-</div>
+
 
 <script>
 $(document).ready(function(){

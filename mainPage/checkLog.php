@@ -1,14 +1,11 @@
-<style>
-/* Chrome, Safari, Edge, Opera */
 
-</style>
 <h5 class="card-header">Check Log</h5>
-<div>
-<table>
-  <tr><th colspan=4>
+<div class=p-2>
+
+
     <select class="form-select" id='selectTenantCheck'>
       <?php
-      $groupQuery = "SELECT * FROM `executiveLease` WHERE `status` <= 2";
+      $groupQuery = "SELECT * FROM `executiveLease` WHERE `status` = 1 or `status` = 2";
       $groups = $db->query($groupQuery);
       while($row = $groups->fetch_assoc()) {
         $tenantID = $row['leaseID'];
@@ -21,18 +18,19 @@
       }
 }
       ?>
-    </select></tr>
-    <tr><td>Check Number</td>
+    </select>
+  <table width="100%" style='margin-top: 5px'>
+    <tr><td>Check Number</td><td width='15px'><td>Amount</td><td width='15px'><td>
       <tr><td><input class=form-control id=inputCheckNumber type="number"/></td>
-        <tr><td>Amount</td>
-          <tr><td>
+
+        <td ><td>
 <div class="input-group">
             <span class="input-group-text">$</span><input class=form-control id=inputCheckNumber type=number />
 </div>
-          </td>
+        <td><td><button class='btn btn-primary'>Log</button></td>
                   </table>
-</div>
 
+</div>
 <script>
 $(document).ready(function(){
   var options = $("#selectTenantCheck option");                    // Collect options

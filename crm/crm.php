@@ -11,7 +11,7 @@ require_once $_SERVER['DOCUMENT_ROOT']."/crm/crmjs.php";
 
 <div class="table-responsive-sm" style="">
 
-    <table cellpadding="1" cellspacing="0" class="table table-sm table-bordered table-striped" id="prostable">
+    <table cellpadding="1" cellspacing="0" class="table table table-bordered table-striped" id="prostable">
     <thead>
     <th>Name</th>
     <th>Phone/Cell</th>
@@ -47,7 +47,7 @@ require_once $_SERVER['DOCUMENT_ROOT']."/crm/crmjs.php";
 
   echo '<tr class="clickable" data-target="#" data-id="'.$row['ID'].'">';
   echo '<td>'.$row['FName']." ".$row['LName'];
-  echo '<td> <i>ph - </i>'.$row['Phone']." ".$hr."<i>c - </i>". $row['cell'];
+  echo '<td> <i>ph - </i>'.$row['Phone'];
   echo '<td>'.$row['email'];
   echo '<td>'.$planname[$row['plannumber']];
   echo '<td>'.$source[$row['source']];

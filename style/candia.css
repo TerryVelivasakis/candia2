@@ -1,18 +1,24 @@
 .datepicker{background-color: #fff;color: #000;}
 [data-phoneStatus] { cursor: pointer; }
-.answerCall{background-color: #6699CC !important; color: black !important;}
-.takeMessage{background-color: #AC915D !important; color: black !important;}
-.ignoreCall{background-color: #FA8072 !important; color: black !important;}
+.answerCall{background-color: #bcdcfc !important; color: black !important;}
+.takeMessage{background-color: #cce4cc !important; color: black !important;}
+.ignoreCall{background-color: #eccccc !important; color: black !important;}
 .optionHeading{font-weight: bold !important;}
 .smallNum{width: 85px;}
 .box{box-sizing: border-box; border: 15px solid transparent; background-clip:padding-box;}
-.mpFramed{border-style: solid;border-width: 1px;border-radius: 5px;border-color: #3498DB;padding-right: 2px;padding-bottom: 5px; padding-left: 2px;}
+.mpFramed{border-style: solid;border-width: 1px;border-radius: 5px;border-color: #2C3E50;padding-right: 2px;padding-bottom: 5px; padding-left: 2px;}
 .mpTablePadding{padding-right: 2px;padding-bottom: 5px;padding-left: 2px;}
-.mpFramedInner{border-style: solid;border-width: 1px;border-radius: 5px;border-color: #3498DB;}
+.mpFramedInner{border-style: solid;border-width: 1px;border-radius: 5px;border-color: #2C3E50;}
 input::-webkit-outer-spin-button,input::-webkit-inner-spin-button {-webkit-appearance: none;margin: 0;}
 input[type="number"] {-moz-appearance: textfield;}
 .clickable{cursor: pointer;}
-
+.tabBorder{
+border-left: 1px solid #dee2e6 !important;
+border-right: 1px solid #dee2e6 !important;
+border-bottom: 1px solid #dee2e6 !important;
+border-bottom-right-radius: 5px;
+border-bottom-left-radius: 5px;
+}
 .forPrint {
 font-family: Arial, Helvetica, sans-serif !important;
 font-size: 12px;

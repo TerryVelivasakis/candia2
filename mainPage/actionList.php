@@ -5,6 +5,7 @@
 </style>
 
 <?php
+session_start();
 $sql = "SELECT count(pendingLeaseID) from executiveLeasePending WHERE status =1";
 $result = $db->query($sql);
 while($row = $result->fetch_assoc()) {$pendingLeases = $row["count(pendingLeaseID)"];}
@@ -31,7 +32,11 @@ while($row = $result->fetch_assoc()) {
 //$crmActions = 6;
 ?>
 <div class='mpFramed'>
-    <h5 class="card-header"><?php echo date('l\, F j, Y');?></h5>
+    <h5 class="card-header pb-3"><center><?php echo date('l')."<div class='mt-1'>".date('F j, Y');?>
+</div>
+<div class='mt-2' id="clock">11:45pm</div>
+
+    </h5>
     <!--
     <div class="card-body">
       <h5 class="card-title">Special title treatment</h5>
@@ -41,12 +46,12 @@ while($row = $result->fetch_assoc()) {
     <ul class="list-group list-group-flush">
       <?php
 
-      if(in_array('recept',$roles) or in_array('mgmt',$roles)){
+      if(in_array('recept',$_SESSION['roles']) or in_array('mgmt',$_SESSION['roles'])){
       echo '<li class="clickable list-group-item d-flex justify-content-between align-items-center" onclick="jumpToPage(1)">CRM Actions Due<span class="badge bg-primary rounded-pill">'.$crmActions.'</span></li>';
       echo '<li class="clickable list-group-item d-flex justify-content-between align-items-center" onclick="jumpToPage(2)">Pending Leases<span class="badge bg-primary rounded-pill">'.$pendingLeases.'</span></li>';
             echo '<li class="clickable list-group-item d-flex justify-content-between align-items-center" onclick="jumpToPage(2)">Leases Out for Signature<span class="badge bg-primary rounded-pill">'.$leasesOutForSignature.'</span></li>';
     }
-    if(in_array('maint',$roles) or in_array('mgmt',$roles)){
+    if(in_array('maint',$_SESSION['roles']) or in_array('mgmt',$_SESSION['roles'])){
       echo '<li class="clickable list-group-item d-flex justify-content-between align-items-center" onclick="jumpToPage(4)">Work Orders<span class="badge bg-primary rounded-pill">'.$pendingLeases.'</span></li>';
     }
       echo '<li class="clickable list-group-item d-flex justify-content-between align-items-center" onclick="jumpToPage(2)">Tenants Moving In<span class="badge bg-primary rounded-pill">'.$movingIn.'</span></li>';
@@ -79,6 +84,32 @@ switch(page){
   window.location.replace(jumpto);
 }
 
+
+function currentTime() {
+  var date = new Date(); /* creating object of Date class */
+  var hour = date.getHours();
+  var min = date.getMinutes();
+  var sec = date.getSeconds();
+  var midday = "am";
+  midday = (hour >= 12) ? "pm" : "am";
+  hour = (hour == 0) ? 12 : ((hour > 12) ? (hour - 12): hour);
+  hour = updateTime(hour);
+  min = updateTime(min);
+  sec = updateTime(sec);
+  document.getElementById("clock").innerText = hour + ":" + min + " " + midday; /* adding time to the div */
+  var t = setTimeout(function(){ currentTime() }, 1000); /* setting timer */
+}
+
+function updateTime(k) {
+  if (k < 10) {
+    return "0" + k;
+  }
+  else {
+    return k;
+  }
+}
+
+currentTime(); /* calling currentTime() function to initiate the process */
 
 
 </script>

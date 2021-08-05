@@ -4,7 +4,7 @@
 
 <?php
 //variables to define
-require $_SERVER["DOCUMENT_ROOT"].'/includes/loadme.php';
+require_once $_SERVER["DOCUMENT_ROOT"].'/includes/loadme.php';
 
 
 $sql = "SELECT * FROM telecomPricing";
@@ -57,7 +57,12 @@ $leaseDate = date("F j, Y");
 $moveInDate = date("F j, Y",strtotime($prospectiveTenant['moveInDate']));
 //property information
 
-if ($prospectiveTenant['guaranty'] == 1){
+$modifiers = explode('|',$prospectiveTenant['modifiers']);
+
+
+if ($modifiers [2] == 1){$fltx = 0; $absSalesTaxExempt = "Tax Exempt Tenant";}else {$fltx = $salexTaxRate;}
+
+if ($modifiers[3] == 1){
   $personalGuarantee = "Exhibit E: Personal Guaranty;";
   $absPersonalGuaranty ="Requires Personal Guaranty.  ";}else{$personalGuarantee=""; $absPersonalGuaranty ="";}
 
@@ -92,45 +97,33 @@ $date2 = date("Y-m-t",strtotime($moveInDate));
 //$prorateDays = date_diff($date1,$date2);
 $prorateDays = dateDifference($date1,$date2);
 
-if ( $prorateDays <= 5){
+if ( $prorateDays <= 5 or $modifiers[1]==1){
   $firstMonthRent = 0;
   $prorateText = "<p><em>Tenant shall pay no rent or associate sales tax for the remainder of ".date("F Y",strtotime($moveInDate)).".</em></p>";
   $absProrateText = "No Rent for ".date("F Y",strtotime($moveInDate)).".";
 }elseif($prorateDays < 25){
   $firstMonthRent = $baseRent/30*$prorateDays;
-  $prorateText = "<p><em>Rent for the Month of ".date("F Y",strtotime($moveInDate))." shall be $".number_format($firstMonthRent,2)." plus Sales Tax of ".number_format($firstMonthRent*$salesTaxRate,2)." for a total of $".number_format($firstMonthRent*(1+$salesTaxRate),2).".</em></p>";
-  $absProrateText = "Rent for ".date("F Y",strtotime($moveInDate))." is $".number_format($firstMonthRent,2)." plus $".number_format($firstMonthRent*$salesTaxRate,2)." Sales Tax";
+  $prorateText = "<p><em>Rent for the Month of ".date("F Y",strtotime($moveInDate))." shall be $".number_format($firstMonthRent,2)." plus Sales Tax of ".number_format($firstMonthRent*$fltx,2)." for a total of $".number_format($firstMonthRent*(1+$fltx),2).".</em></p>";
+  $absProrateText = "Rent for ".date("F Y",strtotime($moveInDate))." is $".number_format($firstMonthRent,2)." plus $".number_format($firstMonthRent*$fltx,2)." Sales Tax";
 }else{
   $firstMonthRent = $baseRent;
 }
 
-if ($prospectiveTenant['contactPhone'] == 1){
+if ($modifiers[0] == 1){
 $absConsessions = "No Rent for ".date("F Y",strtotime($moveInDate. " + 2 months"));
 $consessionText = "<p><em>Tenant shall pay no rent or associate sales tax for the month of ".date("F Y",strtotime($moveInDate. " + 2 months")).".</em></p>";
 
 }
-$firstMonthsalesTax = $firstMonthRent * $salesTaxRate;
+$firstMonthsalesTax = $firstMonthRent * $fltx;
 $totalfirstRent = $firstMonthRent + $firstMonthsalesTax;
 
 
-$salesTax = $baseRent * $salesTaxRate;
+$salesTax = $baseRent * $fltx;
 $totalRent = $baseRent + $salesTax;
 
 //telecom costs
 
-/*
 
-0) Package
-1) phone Lines
-2) Phone Answering boolval
-3) mirror image Devices
-4) power Adapters
-5) efaxes
-6) static IPs
-7) tvservice boolval
-8) internet access boolval
-9) internet access included in rents
-*/
 
 
 
@@ -193,18 +186,7 @@ $internetLease="*included in rent";
 $signerName = "Lefteris N. Velivasakis";
 $signerTitle = "Vice President";
 
-/*
-0) Package
-1) phone Lines
-2) Phone Answering boolval
-3) mirror image Devices
-4) power Adapters
-5) efaxes
-6) static IPs
-7) tvservice boolval
-8) internet access boolval
-9) internet access included in rents
-                  0,1,2,3,4,5,6,7,8,9*/
+
 
 $telecomOTC =
     ($telecomSetupFee[$telecomArray[0]])+//basepackage
@@ -233,7 +215,7 @@ if ($telecomArray[6] > 0){
 
 $totalDueAtSigning= $totalfirstRent+$secruityDeposit+$telecomOTC+$firstMonthTelecom+$furnitureRent;
 
-$absfirstLine = trim($absProrateText." ".$absConsessions." ".$absPersonalGuaranty);
+$absfirstLine = trim($absProrateText." ".$absConsessions." ".$absPersonalGuaranty." ".$absSalesTaxExempt);
 
 if ($absfirstLine==""){$absfirstLine="&nbsp;";}
 

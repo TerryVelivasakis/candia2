@@ -26,36 +26,41 @@ while($row = $result->fetch_assoc()) {
 $sql = "SELECT * FROM `executiveLease`";
 $result = $db->query($sql);
 while($row = $result->fetch_assoc()) {
-echo '<tr><td>'.$row['suiteNumber'].'</td>';
+echo '<tr>';
+if ($row['status'] == 0){ $suite = 'Past';}else {$suite = $row['suiteNumber'];}
+echo '<td>'.$suite.'</td>';
 echo '<td>'.$row['contactName'].'</td>';
 echo '<td>'.$row['tenantName'].'</td>';
 echo '<td>'.$row['contactPhone'].'</td>';
 echo '<td>'.$row['contactCell'].'</td>';
-echo '<td>'.$row['contactEmail'].'</td>';
+echo '<td><a href="'.$row['contactEmail'].'">'.$row['contactEmail'].'</a></td>';
 echo '<td>'.$property[$row['Property']].'</td>';
-
 }
 
-$sql = "SELECT tenantContacts.*, executiveLease.tenantName, executiveLease.Property, executiveLease.suiteNumber FROM tenantContacts JOIN executiveLease ON executiveLease.leaseID = tenantContacts.leaseID WHERE executiveLease.property =".$currentProperty;
+$sql = "SELECT * FROM `tenantContacts` JOIN executiveLease ON tenantContacts.leaseID = executiveLease.leaseID";
 $result = $db->query($sql);
 while($row = $result->fetch_assoc()) {
-  echo '<tr><td>'.$row['suiteNumber'].'</td>';
-  echo '<td>'.$row['addContactName'].'</td>';
-  echo '<td>'.$row['tenantName'].'</td>';
-  echo '<td>'.$row['addPhone'].'</td>';
-  echo '<td>'.$row['addCell'].'</td>';
-  echo '<td>'.$row['addEmail'].'</td>';
-  echo '<td>'.$property[$row['Property']].'</td>';
+echo '<tr>';
+if ($row['status'] == 0){ $suite = 'Past';}else {$suite = $row['suiteNumber'];}
+echo '<td>'.$suite.'</td>';
+echo '<td>'.$row['addContactName'].'</td>';
+echo '<td>'.$row['tenantName'].'</td>';
+echo '<td>'.$row['addPhone'].'</td>';
+echo '<td>'.$row['addCell'].'</td>';
+echo '<td><a href="'.$row['addEmail'].'">'.$row['addEmail'].'</a></td>';
+echo '<td>'.$property[$row['Property']].'</td>';
 }
+
+
  ?>
 </tbody>
 </table>
 </div>
 
 <script>
-  console.log('ready');
+
 $(document).ready(function(){
-  console.log('ready');
+
   $('#contactTable').DataTable({});
   });
 </script>

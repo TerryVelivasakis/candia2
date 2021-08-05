@@ -160,7 +160,7 @@ $tourCard = '<div class="card border-primary mt-1" style="max-width: 20rem;"><di
                   </div>
                   <div class='modal-footer'>
                     <button class='btn btn btn-primary'>save</button>
-                    <button class='btn btn btn-secondary'>close</button>
+                    <button class='btn btn btn-secondary' onclick='$("#DescModal").modal("hide")'>close</button>
                   </div>
                 </div>
 

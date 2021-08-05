@@ -1,5 +1,7 @@
 <?php
 
+//require_once $_SERVER["DOCUMENT_ROOT"].'includes/loadme.php';
+
 $sql = "SELECT * FROM telecomPricing WHERE ProductID = 4";
 $result = $db->query($sql);
 $price = $result->fetch_assoc();
@@ -49,11 +51,12 @@ $price = $result->fetch_assoc();
 $tcTVOTC= number_format($price['SetupFee'],2);
 $tcTVMRC= number_format($price['MonthlyFee'],2);
 $blankLease = "suiteChange();";
+
 if (isset($_GET['q'])){
   $blankLease = "";
 $sql = "SELECT * FROM executiveLeasePending WHERE pendingLeaseID = ".$_GET['q'];
 $result = $db->query($sql);
-@$pendingLeaseData = $result->fetch_assoc();
+$pendingLeaseData = $result->fetch_assoc();
 }
 $moveindate = date('Y', strtotime($pendingLeaseData['moveInDate'])).", ".(intval(date('n', strtotime($pendingLeaseData['moveInDate'])))).", ".date('j', strtotime($pendingLeaseData['moveInDate']));
 
@@ -66,6 +69,7 @@ $moveindateinput = date('m/d/Y',strtotime($pendingLeaseData['moveInDate']));
 }
 
 $telecom = explode(',',$pendingLeaseData['telecomArray']);
+
 
 ?>
 <script>
@@ -82,6 +86,7 @@ function calcTelecom() {
   var tempSetupFee = 0;
   var tempMonthlyFee = 0;
   <?php
+
   $sql = "SELECT * FROM telecomPricing WHERE ProductID < 3";
   $result = $db->query($sql);
   echo "var tcPackagePricing = [0,0";
@@ -97,16 +102,19 @@ totalSetupFee = tcPackagePricing[lamda];
 totalMonthlyFee = tcPackagePricing[lamda+1];
 
 <?php
+
   $sql = "SELECT * FROM telecomPricing WHERE ProductID > 3 AND ProductID <> 9";
+
+
   $result = $db->query($sql);
   while($row = $result->fetch_assoc()) {
     if ( $row['inputType'] == 'input' ){
       echo "tempSetupFee = parseFloat($('#input" . $row['variableID'] . "').val())*". $row['SetupFee'].";"."\n";
       echo "tempMonthlyFee = parseFloat($('#input" . $row['variableID'] . "').val())*". $row['MonthlyFee'].";"."\n";
       //echo "var tempMonthlyFee = $('#input" . $row['variableID'] . "').val() * parseFloat(" . $row['MonthlyFee'].");"."\n";
-      echo "$('#tc".$row['variableID']."OTC').text(currencyFormatter.format(tempSetupFee));";
-      echo "$('#tc".$row['variableID']."MRC').text(currencyFormatter.format(tempMonthlyFee));";
-      echo "$('#tc".$row['variableID']."Total').text(currencyFormatter.format(tempSetupFee+tempMonthlyFee));";
+      echo "$('#tc".$row['variableID']."OTC').text(currencyFormatter.format(tempSetupFee));"."\n";
+      echo "$('#tc".$row['variableID']."MRC').text(currencyFormatter.format(tempMonthlyFee));"."\n";
+      echo "$('#tc".$row['variableID']."Total').text(currencyFormatter.format(tempSetupFee+tempMonthlyFee));"."\n";
 
     }
     if ( $row['inputType'] == 'cb'){
@@ -116,16 +124,16 @@ totalMonthlyFee = tcPackagePricing[lamda+1];
       echo "tempSetupFee = ".$row['SetupFee'].";"."\n";
       echo "tempMonthlyFee = ".$row['MonthlyFee'].";"."\n";
 
-      echo "$('#tc".$row['variableID']."OTC').text(currencyFormatter.format(". $row['SetupFee']."));";
-      echo "$('#tc".$row['variableID']."MRC').text(currencyFormatter.format(". $row['MonthlyFee']."));";
+      echo "$('#tc".$row['variableID']."OTC').text(currencyFormatter.format(". $row['SetupFee']."));"."\n";
+      echo "$('#tc".$row['variableID']."MRC').text(currencyFormatter.format(". $row['MonthlyFee']."));"."\n";
       $lamda = floatval($row['SetupFee']) + floatval($row['MonthlyFee']);
-      echo "$('#tc".$row['variableID']."Total').text(currencyFormatter.format(".$lamda."));";
+      echo "$('#tc".$row['variableID']."Total').text(currencyFormatter.format(".$lamda."));"."\n";
       echo "}else{";
-      echo "tempSetupFee = 0;";
-      echo "tempMonthlyFee = 0;";
-      echo "$('#tc".$row['variableID']."OTC').text('');";
-      echo "$('#tc".$row['variableID']."MRC').text('');";
-      echo "$('#tc".$row['variableID']."Total').text('');";
+      echo "tempSetupFee = 0;"."\n";
+      echo "tempMonthlyFee = 0;"."\n";
+      echo "$('#tc".$row['variableID']."OTC').text('');"."\n";
+      echo "$('#tc".$row['variableID']."MRC').text('');"."\n";
+      echo "$('#tc".$row['variableID']."Total').text('');"."\n";
 
       echo "}";
     }
@@ -133,6 +141,7 @@ totalMonthlyFee = tcPackagePricing[lamda+1];
     echo "totalMonthlyFee += tempMonthlyFee;"."\n";
 
   }
+
   ?>
 
 foobar = [totalSetupFee, totalMonthlyFee, totalSetupFee+totalMonthlyFee];
@@ -140,19 +149,31 @@ return foobar;
 
 }
 
+
+
 function loadLease() {
   $('#inputSuiteNumber').val('<?php echo  $pendingLeaseData['suiteNumber'];?>')
-  $('#inputleaseName').val('<?php echo  $pendingLeaseData['tenantName'];?>');
+  $('#inputleaseName').val('<?php echo  mb_escape($pendingLeaseData['tenantName']);?>');
   $('#inputBaseRent').val(<?php echo $pendingLeaseData['rent']?>);
+  $('#selectTerm').val(<?php echo $pendingLeaseData['leaseTerm']?>)
+
   $('#inputMoveInDate').val('<?php echo $moveindateinput;?>');
-  $('#inputContactName').val('<?php echo $pendingLeaseData['contactName'];?>');
-  $('#inputAddress1').val('<?php echo $pendingLeaseData['contactAddress1'];?>');
-  $('#inputAddress2').val('<?php echo $pendingLeaseData['contactAddress2'];?>');
+
+  $('#inputContactName').val('<?php echo mb_escape($pendingLeaseData['contactName']);?>');
+  $('#inputAddress1').val('<?php echo mb_escape($pendingLeaseData['contactAddress1']);?>');
+
+  $('#inputAddress2').val('<?php echo mb_escape($pendingLeaseData['contactAddress2']);?>');
+
   $('#inputContactPhone').val('<?php echo $pendingLeaseData['contactPhone'];?>');
+  $('#inputContactCell').val('<?php echo $pendingLeaseData['contactCell'];?>');
   $('#inputContactEmail').val('<?php echo $pendingLeaseData['contactEmail'];?>');
-  <?php $directory = explode("|", $pendingLeaseData['directory']);?>
-  $('#inputDirectoryLine1').val('<?php echo $directory[0];?>');
-  $('#inputDirectoryLine2').val('<?php echo $directory[1];?>');
+
+  <?php $directory = explode("**", $pendingLeaseData['directory']);?>
+
+  $('#inputDirectoryLine1').val('<?php echo mb_escape($directory[0]);?>');
+  $('#inputDirectoryLine2').val('<?php echo mb_escape($directory[1]);?>');
+
+
   /*
   0) Package
   1) phone Lines
@@ -200,10 +221,23 @@ if (document.getElementById('cbPhoneAnswering').checked){
 
 if (document.getElementById('cbTV').checked){lamda +=",1,1";}else{lamda +=",0,1";}
 
-return lamda
+return lamda;
 }
 
+
+function modifiersString(){
+if (document.getElementById('3moFree').checked){lamda ="1";}else{lamda ="0";}
+if (document.getElementById('restmoFree').checked){lamda +="**1";}else{lamda +="**0";}
+if (document.getElementById('taxExempt').checked){lamda +="**1";}else{lamda +="**0";}
+if (document.getElementById('guarantee').checked){lamda +="**1";}else{lamda +="**0";}
+if (document.getElementById('docReview').checked){lamda +="**1";}else{lamda +="**0";}
+return lamda;
+}
+
+
 function saveProspectiveLease(){
+
+  if (checkForm() == false){return false;}
 <?php if (isset($_GET['q'])){
   echo "var leaseid = ". $_GET['q'].';';
   echo "action = 'update';";
@@ -218,16 +252,17 @@ furnitureCount += ","+document.getElementById("furniture"+i).value;
 i++;
 }
 
-furnitureAdditional = $("#inputFurniture6").val()+"|"+$("#inputFurniture7").val()+"|"+$("#inputFurniture8").val();
-
-
+furnitureAdditional = $("#inputFurniture6").val()+"**"+$("#inputFurniture7").val()+"**"+$("#inputFurniture8").val();
+bldg = $("#inputSuiteNumber").find(':selected').data('building');
+console.log(bldg);
 leaseData = {
 action : action,
 leaseID: leaseid,
+modifiers: modifiersString(),
 status: checkIfAcceptablePrice(),
 tenantName: $("#inputleaseName").val(),
 leaseTerm: 1,
-Property: $("#inputSuiteNumber").find(':selected').data('building'),
+Property: bldg,
 suiteNumber: $("#inputSuiteNumber").val(),
 moveInDate:$("#inputMoveInDate").val(),
 contactName:$("#inputContactName").val(),
@@ -236,29 +271,30 @@ contactAddress2:$("#inputAddress2").val(),
 contactPhone:$("#inputContactPhone").val(),
 contactCell:$("#inputContactCell").val(),
 contactEmail:$("#inputContactEmail").val(),
-directory:$("#inputDirectoryLine1").val()+"|"+$("#inputDirectoryLine2").val(),
+directory:$("#inputDirectoryLine1").val()+"**"+$("#inputDirectoryLine2").val(),
 doorSign:$("#inputDoorSign").val(),
 rent:$("#inputBaseRent").val(),
 furnitureRent:$("#furnitureRent").val(),
 telecomArray:telecomString(),
 furnitureCount:furnitureCount,
-furnitureAdditional:furnitureAdditional
+furnitureAdditional:furnitureAdditional,
+leaseTerm: $("#selectTerm").val()
 }
-/*
-$.post('/dbFunctions/dbExecutiveLease.php', leaseData)
-function().done(function(){window.location.href="/leasing/executiveLeaseReview.php";}).fail(function(){alert( "error" );});
-*/
-console.log(leaseData);
+
 var jqxhr = $.post( '/dbFunctions/dbExecutiveLease.php', leaseData, function() {
   //alert( "success" );
 })
   .done(function(data) {
+    $("#leaseWarning").removeClass('alert-danger');
+
     foo = data.split("|");
 
+
     if (foo[0] == "1"){
+      console.log('I worked at least');
       window.location.href="/leasing/executiveLeaseReview.php";
     }else{
-
+//      $("#sqloutput").html(foo[1]);
      $("#leaseWarning").addClass('alert-danger');
       $("#leaseWarningText").html(foo[1]);
         }
@@ -287,7 +323,6 @@ var jqxhr = $.post( '/dbFunctions/dbExecutiveLease.php', leaseData, function() {
       if (term >= 3 && term < 6){maxDiscount = 0.85;}
       if ( term < 3){maxDiscount = 0.9;}
 
-      console.log('max discount:' + maxDiscount);
       suite = $("#inputSuiteNumber").val();
       rent = $("#inputSuiteNumber").find(':selected').data('rent');
       if ($("#inputBaseRent").val() < (parseInt(rent)* maxDiscount)){
@@ -297,6 +332,8 @@ var jqxhr = $.post( '/dbFunctions/dbExecutiveLease.php', leaseData, function() {
         return 2;
       } else {$("#leaseWarning").hide(); return 1;}
     }
+
+
 
 
 

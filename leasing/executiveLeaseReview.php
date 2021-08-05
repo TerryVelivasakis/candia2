@@ -20,6 +20,7 @@ require $_SERVER["DOCUMENT_ROOT"].'/includes/nav.php';
       <thead><tr><TH>Status<th width="40%">Tenant Name<th>Suite<th>Move In Date<th>Generate<th>Update Status</tr></thead>
         <tbody>
           <?php
+          session_start();
           $setStatus = "";
           $noBueno = array(2,3);
           $noDisplayStatus = array(3,6);
@@ -36,7 +37,7 @@ require $_SERVER["DOCUMENT_ROOT"].'/includes/nav.php';
 
             $disabled="";
             $executeButton = '<button class="btn btn-sm btn-info" onclick="executeLease('.$row['pendingLeaseID'].')">Finalize</button> ';
-            if ($accessLevel < 2){
+            if ($_SESSION['access'] < 2){
               $executeButton = '';
               if (in_array($row['status'], $noBueno)){$disabled="disabled"; }else{$disabled="";}
                   }
@@ -66,7 +67,7 @@ require $_SERVER["DOCUMENT_ROOT"].'/includes/nav.php';
   <script>
 
   function postStatusUpdate(id, setStatus){
-    var updateValues = {action: "statusUpdate", pendingLeaseID: id, newStatus: setStatus };
+    var updateValues = {action: "statusUpdate", leaseID: id, newStatus: setStatus };
 
     var jqxhr = $.post( '/dbFunctions/dbExecutiveLease.php', updateValues, function() {
       //alert( "success" );
@@ -77,7 +78,7 @@ require $_SERVER["DOCUMENT_ROOT"].'/includes/nav.php';
       $("#updateAlert").removeClass("alert-danger");
       $("#updateAlert").addClass("alert-info");
 
-      output = data.split("|")
+      output = data.split("**")
 
       if (output[0]=="1"){
         $("#updateAlert").addClass("alert-info");
@@ -159,7 +160,7 @@ require $_SERVER["DOCUMENT_ROOT"].'/includes/nav.php';
     .done(function(data) {
       $("#updateAlert").addClass("alert-info");
 
-      output = data.split("|")
+      output = data.split("**")
 
       if (output[0]=="1"){
         $("#updateAlert").addClass("alert-info");

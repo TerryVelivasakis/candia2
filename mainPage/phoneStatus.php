@@ -3,8 +3,8 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         <strong>Oh snap!</strong> <a href="#" class="alert-link">Change a few things up</a> and try submitting again.
       </div>
-      <h5>Phone Status</h5>
-      <table class="table  table-bordered" id="tblTenantAnswer">
+      <h5 class="card-header">Phone Status</h5>
+      <table class="table table-sm" id="tblTenantAnswer">
         <tr class=table-primary><th>Tenants</th></tr>
 
 

@@ -39,7 +39,7 @@ $sql = "SELECT tenantContacts.*, executiveLease.tenantName, executiveLease.Prope
 $result = $db->query($sql);
 
 while($row = $result->fetch_assoc()) {
-echo '<option value ='.$x;
+echo '<option class="'.$propertyInitials[$row['Property']].'" value ='.$x;
 echo ' data-tenantname ="'.$row['addContactName'].'"';
 echo ' data-company = "'.$row['tenantName'].'"';
 echo ' data-suite = "'.$row['suiteNumber'].'"';
