@@ -3,10 +3,11 @@ require $_SERVER["DOCUMENT_ROOT"].'includes/loadme.php';
 require $_SERVER["DOCUMENT_ROOT"].'/includes/nav.php';
 ?>
 <div class='container mt-2'>
-  <fieldset class="form-group">
     <div class='row'>
-
-        <h5 class="mt-4">Quick Search</h5>
+      <div class=col-6>
+  <fieldset class="">
+    <div class='row'>
+        <legend>Property</legend>
         <div class=col-auto>
         <div class="form-check">
           <label class="form-check-label">
@@ -30,7 +31,37 @@ echo '</div></div>';
 }
 
  ?>
+</div>
 </fieldset>
+</div>
+<div class=col-6>
+<fieldset class="form-group">
+<div class=row>
+
+      <legend>Windows</legend>
+      <div class=col-auto>
+      <div class="form-check">
+        <label class="form-check-label">
+          <input type="radio" class="form-check-input qsWindows" name="qsWindows" value="all" checked="">
+          All
+        </label>
+      </div>
+    </div>
+  <div class=col-auto><div class="form-check">
+      <label class="form-check-label">
+      <input type="radio" class="form-check-input qsWindows" name="qsWindows" value="interior">
+      Interior
+      </label>
+    </div></div>
+    <div class=col-auto><div class="form-check">
+        <label class="form-check-label">
+        <input type="radio" class="form-check-input qsWindows" name="qsWindows" value="exterior">
+        Exterior
+        </label>
+      </div></div>
+  </div>
+    </fieldset>
+  </div></div>
 <hr>
 <table class='table' id='availableSuites'>
 <thead>
@@ -52,7 +83,9 @@ $rowClass = "";
 echo "<tr data-building='bldg".$row['BuildingID']." $rowClass'><td>".$row['SuiteNumber'];
 echo "<td>".number_format($row['SqFt'],0);
 echo "<td>$".number_format($row['TargetRent'],2);
-echo "<td>".$row['Windows'];
+echo "<td>";
+if ($row['Windows'] == 1){
+  echo "Exterior";}else{echo "Interior";}
 echo "<td>".$propertyName[$row['BuildingID']];
 
 }
@@ -77,6 +110,16 @@ if ($("input[name='qsProperty']:checked").val() == 'all'){
 }else{
 
 table.columns(4).search($("input[name='qsProperty']:checked").val()).draw();
+}
+});
+
+$('.qsWindows').click(function(){
+  console.log('something happened');
+  var table = $('#availableSuites').DataTable();
+if ($("input[name='qsWindows']:checked").val() == 'all'){
+  table.columns(3).search('').draw();
+}else{
+  table.columns(3).search($("input[name='qsWindows']:checked").val()).draw();
 }
 });
 
