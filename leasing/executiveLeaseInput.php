@@ -517,7 +517,7 @@ $("#inputContactPhone").removeClass('is-valid');
 
 
 if ($("#inputContactCell").val() == "" && $("#inputContactPhone").val() == ""){
-  goodtogo = false
+  goodtogo = false;
   missingdata += "A Phone Number is Required. "
   $("#inputContactCell").addClass('is-invalid');
   $("#inputContactPhone").addClass('is-invalid');
@@ -536,7 +536,7 @@ if (goodtogo == false){
    $("#leaseWarningText").html('<b>Missing Required Fields</b><br>' + missingdata);
    $("#leaseWarning").show();
  }
-
+console.log(goodtogo);
 return goodtogo;
 }
 

@@ -236,8 +236,8 @@ return lamda;
 
 
 function saveProspectiveLease(){
+if (checkForm() == false){console.log ('saveProspectiveLease return false'); return false;}
 
-  if (checkForm() == false){return false;}
 <?php if (isset($_GET['q'])){
   echo "var leaseid = ". $_GET['q'].';';
   echo "action = 'update';";
@@ -280,11 +280,12 @@ furnitureCount:furnitureCount,
 furnitureAdditional:furnitureAdditional,
 leaseTerm: $("#selectTerm").val()
 }
-
+console.log("I'm Still Alive here");
 var jqxhr = $.post( '/dbFunctions/dbExecutiveLease.php', leaseData, function() {
   //alert( "success" );
 })
   .done(function(data) {
+    console.log('data = '+data);
     $("#leaseWarning").removeClass('alert-danger');
 
     foo = data.split("|");

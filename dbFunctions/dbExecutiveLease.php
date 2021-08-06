@@ -62,9 +62,15 @@ echo $posted."|".$alertText;
 
 if ($_POST['action']=="new"){
 $sql = "INSERT INTO `executiveLeasePending` (`pendingLeaseID`, `status`, `tenantName`, `leaseTerm`, `Property`, `suiteNumber`, `moveInDate`, `contactName`, `contactAddress1`, `contactAddress2`, `contactPhone`, `contactCell`, `contactEmail`, `directory`, `doorSign`, `rent`, `furnitureRent`, `telecomArray`, `furnitureCount`, `furnitureAdditional`, `modifiers`) VALUES" ;
-$sql.="(NULL, '1', '$tenantName', '$term', '$Property', '$suiteNumber', '$moveInDate', '$contactName', '$contactAddress1', '$contactAddress2', '$contactPhone', '$contactCell', '$contactEmail', '$directory', '$doorSign', '$rent', '$furnitureRent', '$telecomArray', '$furnitureCount', '$furnitureAdditional', '$modifiers')";
-
-
+$sql.="(NULL, 1, '$tenantName', '$term', '$property', '$suiteNumber', '$moveInDate', '$contactName', '$contactAddress1', '$contactAddress2', '$contactPhone', '$contactCell', '$contactEmail', '$directory', '$doorSign', '$rent', '$furnitureRent', '$telecomArray', '$furnitureCount', '$furnitureAdditional', '$modifiers')";
+if ($db->query($sql) === TRUE) {
+  $posted = 1;
+  $alertText ="";
+}else{
+  $posted = 0;
+  $alertText = "<b>Something has gone terribly wrong!</b><br>" . $db->error."/N".$sql."/N".$_POST['Property'];}
+  //echo "<script>console.log('".var_dump($directory)."');</script>";
+echo $posted."|".$alertText;
 
 }
 
