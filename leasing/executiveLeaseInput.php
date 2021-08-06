@@ -420,7 +420,7 @@ session_start();
     </div>
 </div>
 
-<button onclick='checkForm()'>asdf</button>
+<button onclick='console.log(modifiersString())'>asdf</button>
 </body>
 <script>
 $( document ).ready(function() {

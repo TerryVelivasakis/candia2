@@ -21,6 +21,7 @@ TERMINATION REQUIRES 30 DAYS WRITTEN NOTICE IN ADVANCE OF NEXT RENEWAL TERM.</p>
 
 
 </li>
+<?php echo $salesTaxClasue;?>
 <!--
 if ($daystoprorate > 5 and $daystoprorate < 25){
 $a = $baserent/30*$daystoprorate;

@@ -187,7 +187,16 @@ function loadLease() {
   9) internet access included in rents
   */
 
+  <?php
+  $modifiers = explode('**', $pendingLeaseData['modifiers']);
+  echo "console.log('data: ".$modifiers[2]."');";
+  if ($modifiers[0]=='1'){echo "document.getElementById('3moFree').checked=true;";}
+  if ($modifiers[1]=='1'){echo "document.getElementById('restmoFree').checked=true;";}
+  if ($modifiers[2]=='1'){echo "document.getElementById('taxExempt').checked=true;";}
+  if ($modifiers[3]=='1'){echo "document.getElementById('guarantee').checked=true;";}
+  if ($modifiers[4]=='1'){echo "document.getElementById('docReview').checked=true;";}
 
+  ?>
   $('#inputAdditionalLines').val(<?php echo $telecom[1];?>);
 
   <?php if($telecom[2] == 1){ echo "$('#cbPhoneAnswering').prop('checked', true);";}?>
@@ -261,7 +270,7 @@ leaseID: leaseid,
 modifiers: modifiersString(),
 status: checkIfAcceptablePrice(),
 tenantName: $("#inputleaseName").val(),
-leaseTerm: 1,
+leaseTerm: $("#selectTerm").val(),
 Property: bldg,
 suiteNumber: $("#inputSuiteNumber").val(),
 moveInDate:$("#inputMoveInDate").val(),

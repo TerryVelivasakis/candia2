@@ -57,10 +57,14 @@ $leaseDate = date("F j, Y");
 $moveInDate = date("F j, Y",strtotime($prospectiveTenant['moveInDate']));
 //property information
 
-$modifiers = explode('|',$prospectiveTenant['modifiers']);
+$modifiers = explode('**',$prospectiveTenant['modifiers']);
 
 
-if ($modifiers [2] == 1){$fltx = 0; $absSalesTaxExempt = "Tax Exempt Tenant";}else {$fltx = $salexTaxRate;}
+if ($modifiers [2] == 1){$absSalesTaxExempt = "Tax Exempt Tenant";
+$salesTaxClasue = "<li><p><b>SALES TAX EXEMPTION:</b> As provided by Florida Law, The lease or rental of real property to nonprofit organizations or governmental entities
+that hold a current Florida Consumer’s Certificate of Exemption (Form DR-14) is exempt.  Tenant must provide Form DR-14 to be exempted from Sales Tax.</li>";
+$fltx = $salexTaxRate;
+}else {$fltx = $salexTaxRate; $salesTaxClasue ="<li><p><b>SALES TAX:</b>  The Sales Tax rate is currently ".number_format($salesTaxRate*100, 1)."% and is subject to change with or without notice from Landlord to Tenant.  Any changes in Sales Tax ";}
 
 if ($modifiers[3] == 1){
   $personalGuarantee = "Exhibit E: Personal Guaranty;";

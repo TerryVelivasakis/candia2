@@ -35,7 +35,7 @@ $furnitureRent = $_POST['furnitureRent'];
 $telecomArray = $_POST['telecomArray'];
 $furnitureCount = $_POST['furnitureCount'];
 $furnitureAdditional = needsEscape($_POST['furnitureAdditional']);
-$modifiers = needsEscape($_POST['modifiers']);
+$modifiers = $_POST['modifiers'];
 $term = intval($_POST['leaseTerm']);
 
 }
