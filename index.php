@@ -7,7 +7,7 @@ session_start();
 <div class="container">
   <div class='mt-3'></div>
   <div class='row'>
-    <div class="col-auto">
+    <div class="col-3">
       <div class='row '>
         <?php include $_SERVER["DOCUMENT_ROOT"].'/mainPage/actionList.php';?>
       </div>
@@ -19,7 +19,7 @@ session_start();
       <ul class="nav nav-tabs">
 
         <li class="nav-item">
-          <a class="nav-link active" data-bs-toggle="tab" href="#DentsAndLog">Incidentals & Check Log</a>
+          <a class="nav-link active" data-bs-toggle="tab" href="#DentsAndLog">Main</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" data-bs-toggle="tab" href="#WorkOrders">Work Orders</a>
@@ -57,7 +57,7 @@ echo '<li class="nav-item"><a class="nav-link " data-bs-toggle="tab" href="#time
 
         <div class="tab-pane fade " id="timeSheet">
           <div class='row mpFramedInner mx-1'>
-          <?php ?>
+          <?php include $_SERVER["DOCUMENT_ROOT"].'/mainPage/timeSheet.php';?>
         </div>
       </div>
 
