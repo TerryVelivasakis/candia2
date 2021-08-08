@@ -93,7 +93,7 @@ function currentTime() {
   var midday = "am";
   midday = (hour >= 12) ? "pm" : "am";
   hour = (hour == 0) ? 12 : ((hour > 12) ? (hour - 12): hour);
-  hour = updateTime(hour);
+  //hour = updateTime(hour);
   min = updateTime(min);
   sec = updateTime(sec);
   document.getElementById("clock").innerText = hour + ":" + min + " " + midday; /* adding time to the div */

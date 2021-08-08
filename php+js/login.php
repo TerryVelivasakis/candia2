@@ -16,6 +16,7 @@ session_regenerate_id(true);
   $_SESSION['access'] = $row['accessLevel'];
   $_SESSION['property'] = $row['defaultProperty'];
   $_SESSION['roles'] = explode('|',$row['role']);
+  $_SESSION['empID'] = $row['staffID'];
 if ($row['hourly'] == 1){
 $_SESSION['hourly'] = true;
 } else {
