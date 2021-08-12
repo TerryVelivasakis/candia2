@@ -420,29 +420,23 @@ session_start();
     </div>
 </div>
 
-<button onclick='console.log(modifiersString())'>asdf</button>
 </body>
 <script>
 $( document ).ready(function() {
-  $( ".phone" ).focusout( function() {
 
+/*  $( ".phone" ).focusout( function() {
     phone = $(this).val();
-
     var phoneTest = new RegExp(/^((\+1)|1)? ?\(?(\d{3})\)?[ .-]?(\d{3})[ .-]?(\d{4})( ?(ext\.? ?|x)(\d*))?$/);
-
     phone = phone.trim();
     var results = phoneTest.exec(phone);
     console.log(phone);
     if (results !== null && results.length > 8) {
-
       $(this).val( "(" + results[3] + ") " + results[4] + "-" + results[5] + (typeof results[8] !== "undefined" ? " x" + results[8] : ""));
-
     }
     else {
        $(this).val( phone);
     }
-
-  });
+  });*/
 <?php //echo $blankLease;
 
 if (isset($_GET['q'])){

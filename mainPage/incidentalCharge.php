@@ -2,7 +2,7 @@
 <h5 class="card-header">Incidental Charge</h5>
 <div class='mpTablePadding'>
 
-<table>
+<table width="100%">
   <tr><th colspan=4>
     <select class="form-select" id='selectTenantDent'>
 <?php
