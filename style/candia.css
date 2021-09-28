@@ -36,3 +36,19 @@ font-size: 14px;
         display: none !important;
     }
 }
+
+.timeSheetTable tr{
+  text-align: center !important;
+}
+
+.no-outline {
+  border-top-style: hidden;
+  border-right-style: hidden;
+  border-left-style: hidden;
+  border-bottom-style: hidden;
+
+}
+
+.no-outline:focus {
+  outline: none;
+}

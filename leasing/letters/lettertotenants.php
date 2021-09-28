@@ -3,9 +3,7 @@
 
 <div class="container">
 
-  <div class="fixed-header container">
-  <center><img src="\img\logo\tower.jpg" height ="125px" ></center>
-</div>
+  <div class="fixed-header container"><center><img src="\img\logo\tower.jpg" height ="125px" ></center></div>
 
   <p>
   <?php

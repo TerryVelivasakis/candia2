@@ -61,3 +61,55 @@ if ($_POST['action'] == 'clockout'){
   $query ="UPDATE `TimeClock` SET `TimeOut` = '".date('g:i:s')."' WHERE `employeeID` = ".$_SESSION['empID']." AND `ClockDay` = '".date('Y-m-d')."'";
   if ($hrDB->query($query) === TRUE) {echo '1';}
 }
+
+if ($_POST['action'] == 'HRajax'){
+  $sql = "SELECT * FROM `TimeClock` WHERE `punchID`=".$_POST['punchID'];
+  //$sendback = json_encode($sql);
+  $result = $hrDB->query($sql);
+  $row = $result->fetch_assoc();
+  $sendback = json_encode($row);
+  echo $sendback;
+}
+
+
+if ($_POST['action'] == 'HRedit'){
+
+$sql = "UPDATE `TimeClock` SET `TimeIn` = '".$_POST['TimeIn']."', `LunchOut` = '".$_POST['LunchOut']."', `LunchIn` = '".$_POST['LunchIn']."', `TimeOut` = '".$_POST['TimeOut']."', `punchtype` = '4' WHERE `TimeClock`.`punchID` =".$_POST['punchID'];
+
+$hours = ((strtotime($punch['TimeOut']) - strtotime($punch['TimeIn'])) - (strtotime($punch['LunchIn']) - strtotime($punch['LunchOut'])))/3600;
+
+if ($hrDB->query($query) === TRUE) {
+  echo 'gtg|'.$hours;
+}else{
+echo 'something is fucked up, go fix it ya knob';
+}
+}
+
+if ($_POST['action'] == 'HRoverview'){
+  $sql = "SELECT userName, StaffID FROM Staff";
+  $query = $hrDB -> query($sql);
+  while($row = $query->fetch_assoc()) {
+  $name[$row['StaffID']]=ucfirst($row['userName']);
+  }
+$startDate = $_POST['startDate'];
+$endDate = $_POST['endDate'];
+  $sql = "SELECT StaffID FROM Staff WHERE hourly=1";
+  $query = $hrDB -> query($sql);
+  while($row = $query->fetch_assoc()) {
+    $clockSQL = 'SELECT * FROM TimeClock WHERE employeeId = '.$row['StaffID']." AND ClockDay BETWEEN ".date("'Y-m-d'",$_POST['startDate'])." AND ".date("'Y-m-d'",$_POST['endDate'])." ORDER BY ClockDay DESC";
+    $result = $hrDB -> query($clockSQL);
+    $totalHours = 0; $regular = 0; $overtime = 0;
+$i=0;
+    while($punch = $result->fetch_assoc()) {
+      $hours = ((strtotime($punch['TimeOut']) - strtotime($punch['TimeIn'])) - (strtotime($punch['LunchIn']) - strtotime($punch['LunchOut'])))/3600;
+      $totalHours += $hours;
+      if (date('D',strtotime($punch['ClockDay'])) == 'Mon'){
+        if ($totalHours > 40){$regular += 40; $overtime += $totalHours - 40;}else{$regular += $totalHours;}
+        $totalHours = 0;}
+        $x[$i] = "<tr class='empTimeTotal'><td>".$name[$row['StaffID']]."<td>".number_format($regular,2)."<td>".number_format($overtime,2);
+    }
+
+  }
+  $foo = json_encode($x);
+  echo $foo;
+}

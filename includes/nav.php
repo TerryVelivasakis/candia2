@@ -25,9 +25,9 @@ $currentActive = '<span class="visually-hidden">(current)</span>';
 
 <?php
 
-$headerQuery = "SELECT DISTINCT header FROM nav ORDER BY headerOrder";
-
+$headerQuery = "SELECT DISTINCT header FROM nav WHERE access <= ".$_SESSION['access']." ORDER BY headerOrder";
 $groups = $db->query($headerQuery);
+
 while($header = $groups->fetch_assoc()) {
   echo '<li class="nav-item dropdown">';
   echo '<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><strong>'.$header['header'].'</strong></a>';
