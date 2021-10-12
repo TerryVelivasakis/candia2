@@ -455,7 +455,7 @@ $("#leaseWarning").hide();
 
 $("#modalButton").on("click",function(){
 if (document.getElementById('taxExempt').checked){
- fltx = 0 ; }else{  fltx = SalexTax;}
+ fltx = 0 ; }else{  fltx = SalesTax;}
 
 var totalRent =   $("#inputBaseRent").val()*(1 + fltx);
 var telecom = calcTelecom()

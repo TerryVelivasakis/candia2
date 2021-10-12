@@ -61,7 +61,7 @@ while($header = $groups->fetch_assoc()) {
 
 </div>
 </nav>
-
+<div class=mt-3></div>
 
 <div class="modal" id='userModal'>
   <div class="modal-dialog" role="document">

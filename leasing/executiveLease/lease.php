@@ -16,7 +16,7 @@ Offices at <?php echo $property['propertyName']?>, located on the <?php echo ucf
 TERMINATION REQUIRES 30 DAYS WRITTEN NOTICE IN ADVANCE OF NEXT RENEWAL TERM.</p></li>
 
 <li><p><b>RENT:</b> During the term of this lease, the Tenant hereby covenants and agrees to pay Landlord as rent the total sum of $<?php echo number_format($baseRent, 2)?>
- PLUS APPLICABLE SALES TAX <?php echo number_format($salesTaxRate*100, 1);?>% ($<?php echo number_format((float) $salesTax, 2)?>) FOR A TOTAL OF $<?php echo number_format($totalRent, 2);?> without request or demand. PAYABLE IN ADVANCE the first of every month. Checks are payable to <u><?php echo strtoupper($property['propertyLLC']); ?></u></p>
+ PLUS APPLICABLE SALES TAX <?php echo number_format($salesTaxRate*100, 1);?>% ($<?php echo number_format($baseRent*$salesTaxRate,2);?>) FOR A TOTAL OF $<?php echo number_format($baseRent*(1+$salesTaxRate),2);?> without request or demand. PAYABLE IN ADVANCE the first of every month. Checks are payable to <u><?php echo strtoupper($property['propertyLLC']); ?></u></p>
 <?php echo $prorateText;?>
 
 
