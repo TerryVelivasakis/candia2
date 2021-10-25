@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "@popperjs/core": "^2.9.3"
+    "@popperjs/core": "^2.9.3",
+    "webticker": "^3.0.0"
   }
 }

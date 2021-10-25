@@ -1,206 +1,139 @@
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/plug-ins/1.10.19/features/pageResize/dataTables.pageResize.min.js"></script>
-<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="http://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
-<link rel="stylesheet" type="text/css" href="../style/styledir.css">
-<meta http-equiv="refresh" content="1800" >
+<?php require_once $_SERVER["DOCUMENT_ROOT"].'/vendor/autoload.php';
+require $_SERVER["DOCUMENT_ROOT"].'/includes/dbconfig.php';
+//require $_SERVER["DOCUMENT_ROOT"].'/includes/cookie.php';
+require $_SERVER["DOCUMENT_ROOT"].'/includes/bootstrap.php';
+require $_SERVER["DOCUMENT_ROOT"].'/php+js/generalFunctions.php';
+//$_GET['q']=2;
+$q = $_GET['q'];
 
-<style>
-.contact{
-	position: absolute;
-	top: 92.5%;
-	width: 90%;
-	height: 5.4%;
-	font-size: 100px;
-
+$result = mysqli_query($dirDB, "SELECT * FROM Contact WHERE ID = ".$q);
+while($row = mysqli_fetch_array($result)) {
+$contact = "Management and Leasing | " .$row['Name']." | Suite " .$row['Suite']." | " .$row['Number'];
+$bldgSil = $row['silhouette'];
+$bldgLogo = $row['logo'];
+$weather = $row['weather'];
+$greeting = $row['Greeting'];
 }
-</style>
 
-<body>
-<div class='greeting' id="dynamicDiv"><center>
-<span id="dynamicSpan"></span></center>
+//$bldgSil = "\directory\img\CTsil.jpg";
+//$bldgLogo = "\img\logo\\tower.png";
+//$weather = "https://forecast7.com/en/28d19n82d74/holiday/?unit=us";
+
+// https://forecast7.com/en/27d91n82d79/largo/?unit=us
+// https://forecast7.com/en/28d19n82d74/holiday/?unit=us
+
+?>
+<style>
+.topline{background-color: #d5b802;left: 0;top: 0;height: 110px;width: 100%;position: absolute;}
+.weather{right: 0; top: 0; width: 500px; height: inherit;position: absolute;}
+.clock{left: 0; top: 0; width: 500px; height: inherit;position: absolute; }
+.greeting{ left: 250px; top: 0; width: calc(100vw - 750px); height: inherit;position: absolute;}
+.spanGreeting{display:table; margin:0 auto;}
+.centered{display:table; margin:0 auto;}
+.mainDiv{margin-top: 110;}
+.mainSection{padding-left: 2%; padding-right: 2%; border: 1px solid white; background-color:#a8a9ad; height: calc(100vh - 235px); position: absolute; overflow: hidden !important;}
+img.bldgLogo {display: block; margin-left: auto; margin-right: auto; max-height: 95%}
+.news{background-color: #58585a; left:0; bottom:80px;  width:100%; height: 45px; position: absolute;}
+.accent{background-color: #28585a; left:0; bottom:75px;  width:100%; height: 5px; position: absolute;}
+.headline{color: white; margin: -5px 1px -5px 25px; font-weight: bold; font-size: 18pt}
+.article{color: white; margin: -10px 1px 2px 35px;}
+.bordered{border: 1px solid red}
+.candialion{right: 0; bottom: 0; position: absolute; height: 125px; z-index: 2;}
+.bldgSil{width: 75%; left: 0; bottom: 0; position: absolute; z-index: 0;}
+.anntext{text-align:center; z-index: 2; position: absolute; margin-right: 7%;}
+.contactPAN{top:0; position: absolute;}
+.leasingMessage{ bottom:0; height: 75px; width:91%; position: absolute; text-align:center;}
+body{overflow: hidden;}
+ /* div{border: 1px solid red} */
+</style>
+<img class = candialion src="\img\directory\candiaLion.png">
+<div class = 'topline'>
+
+	<div class="clock">
+		<table>
+		  <tr><th rowspan="5" style='font-size: 80px;'><?php echo date("d") ?>&nbsp</th><th>&nbsp</th></tr>
+		  <tr><td><?php echo date("l") ?></td></tr>
+		  <tr><td><?php echo date("F") ?></td></tr>
+		  <tr><td><span id="clock">&nbsp;</span></td></tr>
+		  <tr><td>&nbsp</td></tr>
+		</table>
+	</div>
+<div class='greeting' id='divGreeting'><span class=spanGreeting id=spanGreeting><?php echo $greeting ?></span> </div>
+	<div class="weather " style='border-left: 1px solid white'>
+		<a class="weatherwidget-io" href="<?php echo $weather;?>" data-font="Roboto" data-icons="Climacons Animated" data-days="3" data-theme="orange" data-basecolor="#d5b802" data-cloudcolor="#58585a" data-cloudfill="#a8a9ad" data-raincolor="#00515f" >Holiday, FL, USA</a>
+		<script>
+		!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
+		</script>
+	</div>
 </div>
 
-<div id="txt" class="time">
-	<table>
-	  <tr>
-	    <th rowspan="5" style='font-size: 80px;'><?php echo date("d") ?>&nbsp</th>
-	    <th>&nbsp</th>
-	  </tr>
-	  <tr>
-	    <td><?php echo date("l") ?></td>
-	  </tr>
-	  <tr>
-	    <td><?php echo date("F") ?></td>
-	  </tr>
-	  <tr>
-	    <td><span id="clock">&nbsp;</span></td>
-	  </tr>
-	  <tr>
-	    <td>&nbsp</td>
-	  </tr>
+<div class="mainDiv">
+<div class="mainSection" style ="left:0; width: 32%;">
+<div style='height: 28%; border-bottom: 1px solid white'><img class = bldgLogo src="<?php echo $bldgLogo;?>"></div>
+<div  style='height: 8%; padding-top: 5px'><h3 class=centered>Announcements</h3></div>
+
+<div id=anndiv  style='height: 65%'><img style="max-width: 100%" class = bldgSil src="<?php echo $bldgSil;?>">
+<div class=anntext>
+<p id=anntext >Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p></div>
+</div>
+</div>
+
+
+<div class="mainSection" style ="left: calc(32% ); width: calc(34% )">
+	<table id="ten1" class="ten" style="width:100%">
+	<thead>
+	<tr>
+	<th></th>
+	<th width="90%"></th>
+	</tr>
+	</thead>
+	<tbody>
+	<?php
+
+	#require $_SERVER["DOCUMENT_ROOT"].'/includes/dbconfig.php';
+	#$months = array('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December');
+	#$headings = array('Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday');
+	$result = mysqli_query($dirDB, "SELECT * FROM Tenants ORDER BY Line1");
+	while($row = mysqli_fetch_array($result)) {
+	echo '<tr><td height="47" style="vertical-align:middle"><b>'.$row['Suite'].'<b></td>
+	<td>'.$row['Line1'].'<br>';
+	if ($row['Line2'] == ""){echo '<i>'.$row['Line2'].'</td></tr>';}else{echo '<i>&nbsp &nbsp &nbsp '.$row['Line2'].'</td></tr>';}
+	}
+	//*/?>
+	</tbody>
 	</table>
 </div>
-
-<div class="weather">
-	<a class="weatherwidget-io" href="https://forecast7.com/en/27d91n82d79/largo/?unit=us" data-days="3" data-theme="gray" data-basecolor="#d5b802" data-highcolor="#9a352b" data-lowcolor="#58585a" data-suncolor="#58585a" data-raincolor="#005996" >Largo, FL, USA</a>
-	<script>
-	!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
-	</script>
-</div>
-
-<div class="annh" id="annh">
-<center><h2>Announcements</h2></center>
-<hr>
-</div>
-<iframe id="annc" class="annb" src="..\directory\announcements.php" frameborder="0" scrolling="no" style="overflow: hidden"></iframe>
-
-<div class="ten1">
-	<table id="ten1" class="ten" style="width:100%">
-	        <thead>
-	            <tr>
-	                <th></th>
-	                <th width="90%"></th>
-
-	            </tr>
-	        </thead>
-	<tbody>
-	<?php
-	$servername = "localhost";
-	$username = "terry";
-	$password = "nalgene2";
-
-	// translate these
-	$months = array('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December');
-	$headings = array('Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday');
-
-  $dbname = "WBdirectory";
-  // Create connection
-  $conn = new mysqli($servername, $username, $password, $dbname);
-  // Check connection
-  if ($conn->connect_error) {
-      die("Connection failed: " . $conn->connect_error);
-  }
-
-  $result = mysqli_query($conn, "SELECT * FROM Tenants ORDER BY Line1");
-
-
-    while($row = mysqli_fetch_array($result)) {
-
-  echo '<tr><td height="47" style="vertical-align:middle"><b>'.$row['Suite'].'<b></td>
-	<td>'.$row['Line1'].'<br>';
-	if ($row['Line2'] == ""){
-	echo '<i>'.$row['Line2'].'</td></tr>';
-}else{
-	echo '<i>&nbsp &nbsp &nbsp '.$row['Line2'].'</td></tr>';
-}
-}
-
-  ?>
-</tbody>
-
-
-    </table>
-
-</div>
-
-
-<div class="ten2">
+<div class="mainSection" style ="right:0; width: 34%">
 	<table id="ten2" class="ten" style="width:100%">
-	        <thead>
-	            <tr>
-	                <th></th>
-	                <th width="90%"></th>
-
-	            </tr>
-	        </thead>
+	<thead>
+	<tr>
+	<th></th>
+	<th width="90%"></th>
+	</tr>
+	</thead>
 	<tbody>
 	<?php
 
-
-  // Create connection
-  $conn = new mysqli($servername, $username, $password, $dbname);
-  // Check connection
-
-
-  if ($conn->connect_error) {
-      die("Connection failed: " . $conn->connect_error);
-  }
-
-  $result = mysqli_query($conn, "SELECT * FROM Tenants ORDER BY Line1");
-
-
-    while($row = mysqli_fetch_array($result)) {
-
-  echo '<tr><td height="47" style="vertical-align:middle"><b>'.$row['Suite'].'<b></td>
+	#require $_SERVER["DOCUMENT_ROOT"].'/includes/dbconfig.php';
+	#$months = array('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December');
+	#$headings = array('Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday');
+	$result = mysqli_query($dirDB, "SELECT * FROM Tenants ORDER BY Line1");
+	while($row = mysqli_fetch_array($result)) {
+	echo '<tr><td height="47" style="vertical-align:middle"><b>'.$row['Suite'].'<b></td>
 	<td>'.$row['Line1'].'<br>';
-	if ($row['Line2'] == ""){
-	echo '<i>'.$row['Line2'].'</td></tr>';
-}else{
-	echo '<i>&nbsp &nbsp &nbsp '.$row['Line2'].'</td></tr>';
-}
-}
-
-  ?>
-</tbody>
-
-
-    </table>
+	if ($row['Line2'] == ""){echo '<i>'.$row['Line2'].'</td></tr>';}else{echo '<i>&nbsp &nbsp &nbsp '.$row['Line2'].'</td></tr>';}
+	}
+	//*/?>
+	</tbody>
+	</table></div>
 
 </div>
+<div class="news"><rssapp-ticker id="f7ncuwJVWJqHXrb1"></rssapp-ticker><script src="https://widget.rss.app/v1/ticker.js" type="text/javascript" async></script></div>
+<div class=accent></div>
 
-<div class="news">
-	<script type="text/javascript">
-	<!--
-	rssfeed_url = new Array();
-	rssfeed_url[0]="https://news.google.com/news/rss";
-	rssfeed_frame_width="95%";
-	rssfeed_frame_height="100%";
-	rssfeed_scroll="on";
-	rssfeed_scroll_step="6";
-	rssfeed_scroll_bar="off";
-	rssfeed_target="_blank";
-	rssfeed_font_size="auto";
-	rssfeed_font_face="font-family: 'Lato', sans-serif";
-	rssfeed_border="off";
-	rssfeed_css_url="";
-	rssfeed_title="off";
-	rssfeed_title_name="";
-	//rssfeed_title_bgcolor="#fff";
-	//rssfeed_title_color="#fff";
-	rssfeed_title_bgimage="";
+<div class=leasingMessage id=contactDIV><span id=contactSPAN class=contactSPAN ><?php echo $contact; ?></span></div>
 
-	rssfeed_item_title_length="150";
-	rssfeed_item_title_color="#fff";
-	//rssfeed_item_bgcolor="#58585a";
-	rssfeed_item_bgimage="";
-	rssfeed_item_border_bottom="off";
-	rssfeed_item_source_icon="off";
-	rssfeed_item_date="off";
-	rssfeed_item_description="on";
-	rssfeed_item_description_length="500";
-	rssfeed_item_description_color="#fff";
-	rssfeed_item_description_link_color="#333";
-	rssfeed_item_description_tag="off";
-	rssfeed_no_items="0";
-	rssfeed_cache = "4af2a4b76e72853f61483bde168a2e3b";
-	//-->
-	</script>
-	<script type="text/javascript" src="//feed.surfing-waves.com/js/rss-feed.js"></script>
-
-</div>
-
-
-<div class='contact' id='condiv'><center>
-<span id='conspan'></span></center>
-</div>
-
-
-
-<script type="text/javascript">
-
+<script>
 function updateClock ( ){
   var currentTime = new Date ( );
   var currentHours = currentTime.getHours ( );
@@ -215,95 +148,39 @@ function updateClock ( ){
   document.getElementById("clock").firstChild.nodeValue = currentTimeString;
 setTimeout(updateClock, 500)
 }
+$(document).ready(function (){
 updateClock()
-
-
-
-
-
-$(document).ready(function() {
-	for (var i = 1; i <= 2; i++) {
-		$('#ten'+i).DataTable( {
-			"scrollY": "850px",
-			"scrollCollapse": false,
-			"ordering": false,
-			"info":     false,
-			"searching": false,
-			"pageLength": 17
-		} );
+function fontSizer(spanID, divID, maxFont){
+	var textSpan = document.getElementById(spanID);
+	var textDiv = document.getElementById(divID);
+	textSpan.style.fontSize = maxFont;
+	while(textSpan.offsetHeight > textDiv.offsetHeight){
+		textSpan.style.fontSize = parseInt(textSpan.style.fontSize) - 1;
 	}
+}
+fontSizer('spanGreeting','divGreeting', 150);
+fontSizer('anntext','anndiv', 25);
+fontSizer('contactSPAN','contactDIV', 50);
+$('.ten').DataTable( {
+	"scrollY": "850px",
+	"bLengthChange": false,
+	"scrollCollapse": false,
+	"ordering": false,
+	"info":     false,
+	"searching": false,
+	"pageLength": 17
 
 } );
 
-$(document).ready(function (){
-    var table = $('#ten1').DataTable();
-    setInterval(function(){
-       var info = table.page.info();
-       var pageNum = (info.page < info.pages) ? info.page + 1 : 1;
-       table.page(pageNum).draw(false);
-    }, 10000);
+function ChangePage(tbl){
+	var table = $('#'+tbl).DataTable();
+  var info = table.page.info();
+  var pageNum = (info.page < info.pages) ? info.page + 1 : 1;
+  table.page(pageNum).draw(false);
+  }
+ChangePage('ten2');
+
+setInterval(function(){ChangePage('ten1');ChangePage('ten2');}, 10000);
 
 });
-
-$(document).ready(function (){
-    var table = $('#ten2').DataTable();
-		var info = table.page.info();
-		var pageNum = (info.page < info.pages) ? info.page + 1 : 1;
-		table.page(pageNum).draw(false);
-    setInterval(function(){
-       var info = table.page.info();
-       var pageNum = (info.page < info.pages) ? info.page + 1 : 1;
-       table.page(pageNum).draw(false);
-    }, 10000);
-
-		setInterval(function(){
-document.getElementById('annc').contentWindow.location.reload();
-}, 15000);
-
-});
-
-
-console.log(document.getElementById('annh').clientWidth);
-$(document).ready(function (){
-
-
-
-<?php
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-// Check connection
-if ($conn->connect_error) {
-		die("Connection failed: " . $conn->connect_error);
-}
-
-$result = mysqli_query($conn, "SELECT * FROM Contact");
-	while($row = mysqli_fetch_array($result)) {
-$contact = "Management and Leasing | " .$row['Name']." | Suite " .$row['Suite']." | " .$row['Number'];
-		echo 'document.getElementById(\'dynamicSpan\').innerHTML="'.$row['Greeting'].'";';
-		echo 'document.getElementById(\'conspan\').innerHTML="'.$contact.'";';
-
-}
-
-
-
-?>
-	var textSpan = document.getElementById("dynamicSpan");
-	var textDiv = document.getElementById("dynamicDiv");
-	textSpan.style.fontSize = 64;
-	while(textSpan.offsetHeight > textDiv.offsetHeight)
-	{
-			textSpan.style.fontSize = parseInt(textSpan.style.fontSize) - 1;
-	}
-
-	var textSpan = document.getElementById("conspan");
-	var textDiv = document.getElementById("condiv");
-  document.getElementById("conspan").style.fontSize = 64;
-	while(textSpan.offsetHeight > textDiv.offsetHeight)	{
-			textSpan.style.fontSize = parseInt(textSpan.style.fontSize) - 1;
-	}
-
-});
-
-
 </script>

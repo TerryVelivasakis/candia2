@@ -1,15 +1,14 @@
 <?php
-$a7 = "active";
-$access=1;
-require $_SERVER['DOCUMENT_ROOT']."/includes/config.php";
-require $_SERVER['DOCUMENT_ROOT']."/includes/nav.php";
+require $_SERVER["DOCUMENT_ROOT"].'/includes/loadme.php';
+require $_SERVER["DOCUMENT_ROOT"].'/includes/nav.php';
+session_start();
 ?>
 
 <html>
   <head>
     <link href="https://cdn.quilljs.com/1.3.4/quill.snow.css" rel="stylesheet">
     <script src="https://cdn.quilljs.com/1.3.4/quill.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
     <style>
     #editor {
       height: 400px;
@@ -59,13 +58,13 @@ require $_SERVER['DOCUMENT_ROOT']."/includes/nav.php";
 
 
 ?>
-<div class="fitter">
+<div class="container">
 <div class="row">
 <div class="col-sm-5">
 <div style="border: 1px solid black; padding: 20px">
   <h5>Update Greeting:</h5>
   <input class="form-control" name="heading" id="heading" type="text" value=<?php echo '"'.$greeting.'"';?>  size="42">
-  <button class="btn btn-blue-grey blue-grey darken-1 btn-sm" onclick="updategreeting()">Update Greeting</button>
+  <button class="btn btn-primary btn-sm mt-1" onclick="updategreeting()">Update Greeting</button>
 </div>
 <br>
 <div style="border: 1px solid black; padding: 20px">
@@ -90,7 +89,7 @@ while($row = mysqli_fetch_array($result)) {
 <td>      <input class="form-control" name="suite" id="line1" type="text" value="">
 <tr><td><td>      <input class="form-control" name="suite" id="line2" type="text" value="">
 <tr><td colspan="2">
-  <span id="uten"><button class="btn btn-blue-grey blue-grey darken-1 btn-sm" onclick="addtenant()">Add Tenant</button></span>
+  <span id="uten"><button class="btn btn-primary btn-sm mt-1" onclick="addtenant()">Add Tenant</button></span>
 </table>
 </div>
 
@@ -168,7 +167,7 @@ echo '';
 <tr>
 <td  colspan ="2">
 
-      <button class="btn btn-sm btn-blue-grey blue-grey darken-1" onclick="logHtmlContent()">Send To Directory</button>
+      <button class="btn btn-primary btn-sm mt-1" onclick="logHtmlContent()">Send To Directory</button>
 
 
 </form>
@@ -185,7 +184,7 @@ echo '';
 <input type="hidden" id="anncimg" value="">
 
 </div>
-
+</div>
   <script>
 
   let Inline = Quill.import('blots/inline');
