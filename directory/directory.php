@@ -8,12 +8,13 @@ $q = $_GET['q'];
 
 $result = mysqli_query($dirDB, "SELECT * FROM Contact WHERE ID = ".$q);
 while($row = mysqli_fetch_array($result)) {
-$contact = "Management and Leasing | " .$row['Name']." | Suite " .$row['Suite']." | " .$row['Number'];
+$contact = "Management and Leasing &emsp; | &emsp; " .$row['Name']." &emsp; | &emsp; Suite " .$row['Suite']." &emsp; | &emsp; " .$row['Number'];
 $bldgSil = $row['silhouette'];
 $bldgLogo = $row['logo'];
 $weather = $row['weather'];
 $greeting = $row['Greeting'];
 }
+
 
 //$bldgSil = "\directory\img\CTsil.jpg";
 //$bldgLogo = "\img\logo\\tower.png";
@@ -23,6 +24,10 @@ $greeting = $row['Greeting'];
 // https://forecast7.com/en/28d19n82d74/holiday/?unit=us
 
 ?>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
+<script src="/php+js/jquery.webticker.min.js"></script>
 <style>
 .topline{background-color: #d5b802;left: 0;top: 0;height: 110px;width: 100%;position: absolute;}
 .weather{right: 0; top: 0; width: 500px; height: inherit;position: absolute;}
@@ -42,8 +47,13 @@ img.bldgLogo {display: block; margin-left: auto; margin-right: auto; max-height:
 .bldgSil{width: 75%; left: 0; bottom: 0; position: absolute; z-index: 0;}
 .anntext{text-align:center; z-index: 2; position: absolute; margin-right: 7%;}
 .contactPAN{top:0; position: absolute;}
-.leasingMessage{ bottom:0; height: 75px; width:91%; position: absolute; text-align:center;}
+.leasingMessage{padding-top:7px; bottom:0; height: 75px; width:91%; position: absolute; text-align:center;}
+ul{font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif !important;font-size: 20px !important; color: white; font-weight: 100 !important;}
 body{overflow: hidden;}
+table.dataTable td {
+  font-size: 18pt;
+}
+
  /* div{border: 1px solid red} */
 </style>
 <img class = candialion src="\img\directory\candiaLion.png">
@@ -72,11 +82,26 @@ body{overflow: hidden;}
 <div style='height: 28%; border-bottom: 1px solid white'><img class = bldgLogo src="<?php echo $bldgLogo;?>"></div>
 <div  style='height: 8%; padding-top: 5px'><h3 class=centered>Announcements</h3></div>
 
+
+
+
+
+<!-- ANNOUNCEMENTS -->
 <div id=anndiv  style='height: 65%'><img style="max-width: 100%" class = bldgSil src="<?php echo $bldgSil;?>">
-<div class=anntext>
-<p id=anntext >Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p></div>
+	<div class=anntext>
+		<div id = annWrapper style="z-index: 5; height: 500px; width:535px">
+			<div id=annimage></div>
+			<div id=divwords style = 'height: 325px; padding-top: 15px'><span id=pwords ></span></div>
+		</div>
+	</div>
+	</div>
 </div>
-</div>
+<!-- ANNOUNCEMENTS -->
+
+
+
+
+
 
 
 <div class="mainSection" style ="left: calc(32% ); width: calc(34% )">
@@ -93,7 +118,7 @@ body{overflow: hidden;}
 	#require $_SERVER["DOCUMENT_ROOT"].'/includes/dbconfig.php';
 	#$months = array('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December');
 	#$headings = array('Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday');
-	$result = mysqli_query($dirDB, "SELECT * FROM Tenants ORDER BY Line1");
+	$result = mysqli_query($dirDB, "SELECT * FROM Tenants WHERE propertyID = ".$_GET['q']." ORDER BY Line1");
 	while($row = mysqli_fetch_array($result)) {
 	echo '<tr><td height="47" style="vertical-align:middle"><b>'.$row['Suite'].'<b></td>
 	<td>'.$row['Line1'].'<br>';
@@ -117,7 +142,7 @@ body{overflow: hidden;}
 	#require $_SERVER["DOCUMENT_ROOT"].'/includes/dbconfig.php';
 	#$months = array('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December');
 	#$headings = array('Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday');
-	$result = mysqli_query($dirDB, "SELECT * FROM Tenants ORDER BY Line1");
+	$result = mysqli_query($dirDB, "SELECT * FROM Tenants WHERE propertyID = ".$_GET['q']." ORDER BY Line1");
 	while($row = mysqli_fetch_array($result)) {
 	echo '<tr><td height="47" style="vertical-align:middle"><b>'.$row['Suite'].'<b></td>
 	<td>'.$row['Line1'].'<br>';
@@ -128,7 +153,14 @@ body{overflow: hidden;}
 	</table></div>
 
 </div>
-<div class="news"><rssapp-ticker id="f7ncuwJVWJqHXrb1"></rssapp-ticker><script src="https://widget.rss.app/v1/ticker.js" type="text/javascript" async></script></div>
+<div class="news"><ul id=webTicker><?php $rss_feed = simplexml_load_file("https://news.google.com/rss");
+if(!empty($rss_feed)) {$i=0;
+foreach ($rss_feed->channel->item as $feed_item) {
+if($i>=200) break;
+?>
+<li><span><?php echo $feed_item->title ."&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;   "; ?></span></li>
+<?php $i++;}}?>
+</ul></div>
 <div class=accent></div>
 
 <div class=leasingMessage id=contactDIV><span id=contactSPAN class=contactSPAN ><?php echo $contact; ?></span></div>
@@ -149,6 +181,7 @@ function updateClock ( ){
 setTimeout(updateClock, 500)
 }
 $(document).ready(function (){
+	$('#webTicker').webTicker({height:'45px'});
 updateClock()
 function fontSizer(spanID, divID, maxFont){
 	var textSpan = document.getElementById(spanID);
@@ -159,7 +192,7 @@ function fontSizer(spanID, divID, maxFont){
 	}
 }
 fontSizer('spanGreeting','divGreeting', 150);
-fontSizer('anntext','anndiv', 25);
+fontSizer('pwords','divwords', 35);
 fontSizer('contactSPAN','contactDIV', 50);
 $('.ten').DataTable( {
 	"scrollY": "850px",
@@ -181,6 +214,7 @@ function ChangePage(tbl){
 ChangePage('ten2');
 
 setInterval(function(){ChangePage('ten1');ChangePage('ten2');}, 10000);
+		//alert("Your screen resolution is: " + screen.width + "x" + screen.height);
 
 });
 </script>
